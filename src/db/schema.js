@@ -1,5 +1,5 @@
-export const SCHEMA_SQL = `
-
+export const SCHEMA_SQL = 
+`
 CREATE TABLE IF NOT EXISTS categories (
   id   INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT    NOT NULL UNIQUE CHECK (length(trim(name)) > 0)
@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS order_items (
   cancel_ack_at TEXT,
   FOREIGN KEY (round_id)     REFERENCES order_rounds (id) ON DELETE CASCADE,
   FOREIGN KEY (menu_item_id) REFERENCES menu_items (id)   ON DELETE RESTRICT,
+
   CHECK (
     (status = 'cancelled'
        AND cancelled_by  IS NOT NULL
