@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
 import { Alert, Pressable, SectionList, Text, View } from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
+import BillLineCard from "../components/BillLineCard";
 import CancelReasonModal from "../components/CancelReasonModal";
 import NoticeCard from "../components/NoticeCard";
-import StatusBadge from "../components/StatusBadge";
 import {
   acknowledgeKitchenCancels,
   closeBill,
@@ -23,7 +23,6 @@ import { formatBaht, formatDateTime, formatTime } from "../utils/format";
 import { groupByRound } from "../utils/grouping";
 import {
   BILL_STATUS,
-  CANCEL_BY_LABEL,
   CANCELLED_BY,
   CUSTOMER_CANCEL_REASONS,
   ORDER_STATUS,
@@ -120,42 +119,10 @@ export default function BillScreen({ navigation, route }) {
     });
   }
 
+  // ยกเลิกได้เฉพาะบิลที่ยังเปิด และรายการที่ครัวยังไม่ได้ลงมือทำ (ข3)
   function renderLine({ item }) {
-    const cancelled = item.status === ORDER_STATUS.cancelled;
-    return (
-      <View style={styles.line}>
-        <View style={styles.lineTop}>
-          <Text style={[styles.name, cancelled && styles.struck]}>
-            {item.name} ×{item.quantity}
-          </Text>
-          <Text style={[styles.lineTotal, cancelled && styles.struck]}>
-            {formatBaht(item.line_total)}
-          </Text>
-        </View>
-        <Text style={styles.detail}>
-          {formatBaht(item.unit_total)} ต่อหน่วย
-          {item.options_text ? ` · ${item.options_text}` : ""}
-        </Text>
-        {item.note !== "" && <Text style={styles.detail}>หมายเหตุ: {item.note}</Text>}
-        {cancelled && (
-          <Text style={styles.cancelInfo}>
-            {CANCEL_BY_LABEL[item.cancelled_by]}ยกเลิก {formatDateTime(item.cancelled_at)} ·{" "}
-            {item.cancel_reason}
-          </Text>
-        )}
-        <View style={styles.lineBottom}>
-          <StatusBadge status={item.status} />
-          {isOpen && item.status === ORDER_STATUS.pending && (
-            <Pressable
-              accessibilityLabel={`ยกเลิก ${item.name}`}
-              onPress={() => setCancelTarget(item)}
-            >
-              <Text style={styles.cancelText}>ยกเลิก</Text>
-            </Pressable>
-          )}
-        </View>
-      </View>
-    );
+    const canCancel = isOpen && item.status === ORDER_STATUS.pending;
+    return <BillLineCard item={item} onCancel={canCancel ? setCancelTarget : undefined} />;
   }
 
   const header = bill && (

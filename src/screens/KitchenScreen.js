@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSQLiteContext } from "expo-sqlite";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import CancelReasonModal from "../components/CancelReasonModal";
 import KitchenFilterTabs from "../components/KitchenFilterTabs";
+import KitchenHeader from "../components/KitchenHeader";
 import KitchenNoticeModal from "../components/KitchenNoticeModal";
 import KitchenTableCard from "../components/KitchenTableCard";
 import KitchenTableDetail from "../components/KitchenTableDetail";
@@ -30,7 +30,7 @@ import { useNow } from "../hooks/useNow";
 import { useReloadOnFocus } from "../hooks/useReloadOnFocus";
 import { common } from "../styles/commonStyles";
 import { styles } from "../styles/kitchenStyles";
-import { colors, layout } from "../styles/theme";
+import { layout } from "../styles/theme";
 import { showError } from "../utils/alerts";
 import { countTablesByStatus, groupKitchenTables, KITCHEN_FILTER } from "../utils/kitchen";
 import { CANCELLED_BY, KITCHEN_CANCEL_REASONS } from "../utils/status";
@@ -95,6 +95,9 @@ export default function KitchenScreen() {
   }
 
   async function handlePrimaryAction(action) {
+    if (!selected) {
+      return;
+    }
     try {
       await advanceBillItems(db, selected.billId, action.from);
       await load();
@@ -144,27 +147,7 @@ export default function KitchenScreen() {
 
   return (
     <View style={[common.screen, { paddingTop: insets.top }]}>
-      <View style={styles.header}>
-        <View style={styles.brand}>
-          <MaterialCommunityIcons name="chef-hat" size={40} color={colors.ink} />
-          <View>
-            <Text style={styles.title}>ครัว</Text>
-            <Text style={styles.subtitle}>จัดการออเดอร์ / เตรียมอาหาร / เสิร์ฟ</Text>
-          </View>
-        </View>
-        <Pressable
-          accessibilityLabel="การแจ้งเตือน"
-          onPress={() => setNoticeOpen(true)}
-          style={styles.bell}
-        >
-          <Ionicons name="notifications-outline" size={26} color={colors.ink} />
-          {kitchenNoticeCount > 0 && (
-            <View style={styles.bellBadge}>
-              <Text style={styles.bellBadgeText}>{kitchenNoticeCount}</Text>
-            </View>
-          )}
-        </Pressable>
-      </View>
+      <KitchenHeader noticeCount={kitchenNoticeCount} onPressBell={() => setNoticeOpen(true)} />
 
       <KitchenFilterTabs value={filter} counts={counts} onChange={setFilter} />
 

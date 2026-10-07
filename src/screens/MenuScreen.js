@@ -52,7 +52,8 @@ export default function MenuScreen({ navigation, route }) {
   const gridWidth = width - layout.sidebarWidth - layout.panelWidth;
   const columns = Math.max(1, Math.floor(gridWidth / layout.gridCardMinWidth));
 
-  const load = useCallback(async () => {
+  // ข้อมูลของหน้า (บิล หมวด แจ้งเตือน) โหลดเมื่อกลับมาที่หน้า
+  const loadScreen = useCallback(async () => {
     try {
       const bill = await getBill(db, billId);
       if (!bill || bill.status !== BILL_STATUS.open) {
@@ -61,14 +62,24 @@ export default function MenuScreen({ navigation, route }) {
       }
       navigation.setOptions({ title: `โต๊ะ ${bill.table_no}` });
       setCategories(await getCategories(db));
-      setItems(await getMenuItems(db, { search, categoryId, onlyAvailable }));
       setNoticeCount((await getKitchenCancelNotices(db, billId)).length);
     } catch (error) {
       showError(error);
     }
-  }, [db, billId, navigation, search, categoryId, onlyAvailable]);
+  }, [db, billId, navigation]);
 
-  useReloadOnFocus(load);
+  // รายการเมนูโหลดใหม่ทั้งตอนกลับมาที่หน้า และทุกครั้งที่ค้นหาหรือเปลี่ยนตัวกรอง
+  // (พิมพ์ค้นหาจึงไม่ต้องโหลดบิลและหมวดซ้ำทุกตัวอักษร)
+  const loadItems = useCallback(async () => {
+    try {
+      setItems(await getMenuItems(db, { search, categoryId, onlyAvailable }));
+    } catch (error) {
+      showError(error);
+    }
+  }, [db, search, categoryId, onlyAvailable]);
+
+  useReloadOnFocus(loadScreen);
+  useReloadOnFocus(loadItems);
 
   const openBill = useCallback(
     () => navigation.navigate(ROUTES.bill, { billId }),

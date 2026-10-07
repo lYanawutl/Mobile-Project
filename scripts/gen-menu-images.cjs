@@ -52,9 +52,15 @@ const output = [
 fs.writeFileSync(OUTPUT_FILE, output, "utf8");
 console.log("เขียน", path.relative(ROOT, OUTPUT_FILE), "แล้ว:", files.length, "รูป");
 
+// รูปใหญ่ทำให้แอปใหญ่ และหน้าเมนูกินหน่วยความจำ/เลื่อนช้า
+const LARGE_FILE_KB = 300;
 for (const name of files) {
   if (!SAFE_NAME.test(name)) {
     console.warn("คำเตือน: ชื่อไฟล์ควรเป็นตัวพิมพ์เล็ก อังกฤษ ตัวเลข - _ เท่านั้น ->", name);
+  }
+  const sizeKb = Math.round(fs.statSync(path.join(IMAGE_DIR, name)).size / 1024);
+  if (sizeKb > LARGE_FILE_KB) {
+    console.warn("คำเตือน: รูปใหญ่", sizeKb, "KB ควรย่อให้ด้านยาวไม่เกิน 1200 px ->", name);
   }
 }
 
