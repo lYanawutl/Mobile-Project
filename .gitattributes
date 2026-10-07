@@ -1,0 +1,8 @@
+# ให้ทุกไฟล์ข้อความใน repo ใช้ขึ้นบรรทัดแบบ LF เหมือนกันทุกเครื่อง (Windows/macOS)
+* text=auto eol=lf
+
+# ไฟล์ไบนารี ห้ามแปลง
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ttf binary
