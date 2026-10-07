@@ -97,13 +97,16 @@ CREATE TABLE IF NOT EXISTS order_item_options (
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_bills_one_open_per_table
   ON bills (table_id) WHERE status = 'open';
+
 CREATE UNIQUE INDEX IF NOT EXISTS idx_order_rounds_bill_round
   ON order_rounds (bill_id, round_no);
+
 CREATE INDEX IF NOT EXISTS idx_order_items_round
   ON order_items (round_id);
+
 CREATE INDEX IF NOT EXISTS idx_order_items_status
   ON order_items (status);
-  
+
 CREATE VIEW IF NOT EXISTS order_lines AS
 SELECT q.*,
        q.unit_price + q.options_price AS unit_total,

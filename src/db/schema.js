@@ -63,7 +63,6 @@ CREATE TABLE IF NOT EXISTS order_items (
   quantity      INTEGER NOT NULL CHECK (typeof(quantity) = 'integer' AND quantity > 0),
   unit_price    INTEGER NOT NULL CHECK (typeof(unit_price) = 'integer' AND unit_price > 0), -- ราคา ณ ตอนสั่ง
   note          TEXT    NOT NULL DEFAULT '',
-  -- รอทำ -> กำลังทำ -> พร้อมเสิร์ฟ -> เสิร์ฟแล้ว (หรือยกเลิก ได้เฉพาะตอนรอทำ)
   status        TEXT    NOT NULL DEFAULT 'pending'
                 CHECK (status IN ('pending', 'cooking', 'ready', 'served', 'cancelled')),
   cancelled_by  TEXT    CHECK (cancelled_by IN ('customer', 'kitchen')),
@@ -98,10 +97,13 @@ CREATE TABLE IF NOT EXISTS order_item_options (
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_bills_one_open_per_table
   ON bills (table_id) WHERE status = 'open';
+
 CREATE UNIQUE INDEX IF NOT EXISTS idx_order_rounds_bill_round
   ON order_rounds (bill_id, round_no);
+
 CREATE INDEX IF NOT EXISTS idx_order_items_round
   ON order_items (round_id);
+
 CREATE INDEX IF NOT EXISTS idx_order_items_status
   ON order_items (status);
 

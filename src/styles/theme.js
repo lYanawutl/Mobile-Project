@@ -13,7 +13,6 @@ export const colors = {
   slate: "#7C8791",
   slateSoft: "#ECEFEE",
   overlay: "rgba(28, 39, 51, 0.45)",
-
   tableScreen: "#FFFFFF",
   tableTop: "#F1F3F2",
   tableTopBusy: "#1C2733",

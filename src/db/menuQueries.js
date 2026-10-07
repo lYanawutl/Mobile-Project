@@ -68,7 +68,6 @@ export async function addMenuItem(
   });
   return newId;
 }
-
 export async function updateMenuItem(
   db,
   menuItemId,

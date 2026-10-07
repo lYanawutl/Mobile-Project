@@ -1,5 +1,11 @@
 import { useCallback, useState } from "react";
-import { FlatList, Pressable, Text, useWindowDimensions, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSQLiteContext } from "expo-sqlite";
 import { Ionicons } from "@expo/vector-icons";
@@ -22,7 +28,8 @@ export default function TableSelectScreen({ navigation }) {
   const { width } = useWindowDimensions();
   const [tables, setTables] = useState([]);
 
-  const columns = width >= layout.wideBreakpoint ? WIDE_COLUMNS : NARROW_COLUMNS;
+  const columns =
+    width >= layout.wideBreakpoint ? WIDE_COLUMNS : NARROW_COLUMNS;
 
   const load = useCallback(async () => {
     try {
@@ -45,11 +52,13 @@ export default function TableSelectScreen({ navigation }) {
       return;
     }
 
-    const leavingFilledCart = cart.lines.length > 0 && cart.billId !== table.open_bill_id;
+    const leavingFilledCart =
+      cart.lines.length > 0 && cart.billId !== table.open_bill_id;
     if (leavingFilledCart) {
       confirmAction({
         title: "เปลี่ยนโต๊ะ",
-        message: "ตะกร้าของโต๊ะเดิมยังมีรายการ ถ้าเปลี่ยนโต๊ะ ตะกร้านั้นจะถูกล้าง",
+        message:
+          "ตะกร้าของโต๊ะเดิมยังมีรายการ ถ้าเปลี่ยนโต๊ะ ตะกร้านั้นจะถูกล้าง",
         confirmText: "ล้างตะกร้าและเปลี่ยนโต๊ะ",
         destructive: true,
         onConfirm: () => enterBill(table.open_bill_id),
