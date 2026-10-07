@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     padding: space.xl,
   },
-  // พื้นที่รอบการ์ด แตะแล้วปิดหน้ายืนยัน
   dismissArea: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
   card: {
     width: "100%",
@@ -20,7 +19,12 @@ export const styles = StyleSheet.create({
     gap: space.lg,
     alignItems: "center",
   },
-  title: { color: colors.ink, fontSize: font.heading, fontWeight: "800", textAlign: "center" },
+  title: {
+    color: colors.ink,
+    fontSize: font.heading,
+    fontWeight: "800",
+    textAlign: "center",
+  },
   message: { color: colors.inkSoft, fontSize: font.body, textAlign: "center" },
   guestRow: {
     alignSelf: "stretch",

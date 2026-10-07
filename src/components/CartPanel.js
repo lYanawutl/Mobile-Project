@@ -11,8 +11,6 @@ import { styles } from "../styles/cartPanelStyles";
 import { confirmAction, showError } from "../utils/alerts";
 import { formatBaht } from "../utils/format";
 
-// ก4: ตรวจรายการในตะกร้าก่อนยืนยัน แล้วส่งเข้าครัวเป็นหนึ่งรอบการสั่ง
-// ใช้ทั้งในแผงขวาของหน้าเมนู (จอกว้าง) และหน้าตะกร้าเต็มจอ (จอแคบ)
 export default function CartPanel({ billId, onSent, onBrowseMenu }) {
   const db = useSQLiteContext();
   const cart = useCart();
@@ -31,7 +29,6 @@ export default function CartPanel({ billId, onSent, onBrowseMenu }) {
 
   useReloadOnFocus(load);
 
-  // ยอดรวมมาจาก SQL (window function) ทุกแถวมีค่าเดียวกัน
   const total = rows.length > 0 ? rows[0].cart_total : 0;
   const hasSoldOut = rows.some((row) => row.is_available === 0);
   const canSend = rows.length > 0 && !hasSoldOut && !sending;
@@ -75,9 +72,13 @@ export default function CartPanel({ billId, onSent, onBrowseMenu }) {
           {formatBaht(row.unit_total)} ต่อหน่วย
           {row.options_text ? ` · ${row.options_text}` : ""}
         </Text>
-        {line.note !== "" && <Text style={styles.detail}>หมายเหตุ: {line.note}</Text>}
+        {line.note !== "" && (
+          <Text style={styles.detail}>หมายเหตุ: {line.note}</Text>
+        )}
         {row.is_available === 0 && (
-          <Text style={styles.soldOut}>เมนูนี้ปิดการขายอยู่ ลบออกก่อนจึงจะส่งได้</Text>
+          <Text style={styles.soldOut}>
+            เมนูนี้ปิดการขายอยู่ ลบออกก่อนจึงจะส่งได้
+          </Text>
         )}
         <View style={styles.lineBottom}>
           <QuantityStepper
@@ -85,7 +86,10 @@ export default function CartPanel({ billId, onSent, onBrowseMenu }) {
             min={1}
             onChange={(quantity) => cart.setQuantity(line.key, quantity)}
           />
-          <Pressable accessibilityLabel="ลบรายการ" onPress={() => cart.setQuantity(line.key, 0)}>
+          <Pressable
+            accessibilityLabel="ลบรายการ"
+            onPress={() => cart.setQuantity(line.key, 0)}
+          >
             <Text style={styles.removeText}>ลบ</Text>
           </Pressable>
         </View>
@@ -110,7 +114,9 @@ export default function CartPanel({ billId, onSent, onBrowseMenu }) {
                 onPress={onBrowseMenu}
                 style={[common.button, common.buttonOutline]}
               >
-                <Text style={[common.buttonText, common.buttonOutlineText]}>กลับไปเลือกเมนู</Text>
+                <Text style={[common.buttonText, common.buttonOutlineText]}>
+                  กลับไปเลือกเมนู
+                </Text>
               </Pressable>
             )}
           </View>
@@ -123,14 +129,18 @@ export default function CartPanel({ billId, onSent, onBrowseMenu }) {
             <Text style={styles.totalLabel}>ยอดรอบนี้</Text>
             <Text style={styles.totalValue}>{formatBaht(total)}</Text>
           </View>
-          {hasSoldOut && <Text style={styles.warning}>มีเมนูที่ปิดการขายอยู่ในตะกร้า</Text>}
+          {hasSoldOut && (
+            <Text style={styles.warning}>มีเมนูที่ปิดการขายอยู่ในตะกร้า</Text>
+          )}
           <Pressable
             accessibilityLabel="ส่งเข้าครัว"
             disabled={!canSend}
             onPress={handleSend}
             style={[common.button, !canSend && common.buttonDisabled]}
           >
-            <Text style={[common.buttonText, !canSend && common.buttonDisabledText]}>
+            <Text
+              style={[common.buttonText, !canSend && common.buttonDisabledText]}
+            >
               ส่งเข้าครัว
             </Text>
           </Pressable>

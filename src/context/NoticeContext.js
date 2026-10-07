@@ -9,9 +9,6 @@ import {
 import { useSQLiteContext } from "expo-sqlite";
 import { getKitchenNoticeCount } from "../db/kitchenQueries";
 
-// จำนวนข้อความ "ลูกค้ายกเลิก" ที่ครัวยังไม่รับทราบ แสดงเป็นตัวเลขบนแท็บครัว
-// ตัวจริงอยู่ในฐานข้อมูล (cancel_ack_at) ที่นี่เก็บแค่ตัวเลขไว้ให้แท็บอ่าน
-
 const NoticeContext = createContext(null);
 
 export function NoticeProvider({ children }) {

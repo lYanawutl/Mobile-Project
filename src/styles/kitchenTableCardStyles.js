@@ -22,7 +22,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: space.md,
     paddingVertical: space.xs,
   },
-  tableChipText: { color: colors.surface, fontSize: font.body, fontWeight: "800" },
+  tableChipText: {
+    color: colors.surface,
+    fontSize: font.body,
+    fontWeight: "800",
+  },
   meta: { color: colors.inkSoft, fontSize: font.small },
   metaRow: { flexDirection: "row", alignItems: "center", gap: space.xs },
 

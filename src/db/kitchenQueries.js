@@ -1,16 +1,11 @@
-// คำสั่ง SQL ฝั่งครัว
 import { ORDER_STATUS } from "../utils/status";
 
-// สถานะที่ครัวเปลี่ยนได้ทางเดียว: รอทำ -> กำลังทำ -> พร้อมเสิร์ฟ -> เสิร์ฟแล้ว
 const NEXT_STATUS = {
   [ORDER_STATUS.pending]: ORDER_STATUS.cooking,
   [ORDER_STATUS.cooking]: ORDER_STATUS.ready,
   [ORDER_STATUS.ready]: ORDER_STATUS.served,
 };
 
-// รายการที่ครัวยังต้องจัดการ (รอทำ กำลังทำ พร้อมเสิร์ฟ) ของทุกโต๊ะ
-// เรียงตามเวลาที่สั่ง รายการเก่าสุดขึ้นก่อน (ก7) พร้อมโต๊ะ รอบ และหมายเหตุ (ก9)
-// หน้าครัวจัดกลุ่มตามบิลเอง ลำดับโต๊ะจึงตามรายการที่เก่าสุดของโต๊ะนั้น
 export async function getKitchenQueue(db) {
   return db.getAllAsync(
     `SELECT l.id, l.bill_id, l.status, l.quantity, l.note, l.round_no, l.ordered_at,
@@ -24,8 +19,6 @@ export async function getKitchenQueue(db) {
   );
 }
 
-// เปลี่ยนสถานะรายการเดียวไปขั้นถัดไป โดยเช็กว่าสถานะปัจจุบันยังเป็นค่าที่หน้าจอเห็นอยู่
-// (กันกรณีรายการถูกยกเลิกหรือเปลี่ยนไปแล้ว) คืน true ถ้าเปลี่ยนสำเร็จ
 export async function advanceItemStatus(db, orderItemId, currentStatus) {
   const nextStatus = NEXT_STATUS[currentStatus];
   if (!nextStatus) {
@@ -38,9 +31,6 @@ export async function advanceItemStatus(db, orderItemId, currentStatus) {
   return result.changes > 0;
 }
 
-// เปลี่ยนสถานะทุกรายการของบิลที่อยู่ในสถานะ currentStatus ไปขั้นถัดไปพร้อมกัน
-// (ปุ่มหลักของหน้าครัว เช่น "ทำเสร็จแล้ว" = กำลังทำทั้งหมด -> พร้อมเสิร์ฟ)
-// เป็น UPDATE คำสั่งเดียว จึงสำเร็จหรือไม่สำเร็จทั้งชุด คืนจำนวนรายการที่เปลี่ยน
 export async function advanceBillItems(db, billId, currentStatus) {
   const nextStatus = NEXT_STATUS[currentStatus];
   if (!nextStatus) {
@@ -56,7 +46,6 @@ export async function advanceBillItems(db, billId, currentStatus) {
   return result.changes;
 }
 
-// ข้อความ "ลูกค้ายกเลิก" ที่ครัวยังไม่กดรับทราบ
 export async function getCustomerCancelNotices(db) {
   return db.getAllAsync(
     `SELECT l.id, l.name, l.quantity, l.round_no, t.table_no,
@@ -71,7 +60,6 @@ export async function getCustomerCancelNotices(db) {
   );
 }
 
-// ตัวเลขบนแท็บครัวและกระดิ่งแจ้งเตือน
 export async function getKitchenNoticeCount(db) {
   const row = await db.getFirstAsync(
     `SELECT COUNT(*) AS n

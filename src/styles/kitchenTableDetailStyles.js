@@ -5,9 +5,18 @@ export const styles = StyleSheet.create({
   panel: { flex: 1 },
   content: { padding: space.lg, gap: space.lg },
 
-  headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
   title: { color: colors.ink, fontSize: font.heading, fontWeight: "800" },
-  metaRow: { flexDirection: "row", alignItems: "center", gap: space.xs, marginTop: space.xs },
+  metaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: space.xs,
+    marginTop: space.xs,
+  },
   meta: { color: colors.inkSoft, fontSize: font.small, marginRight: space.sm },
 
   itemsCard: {

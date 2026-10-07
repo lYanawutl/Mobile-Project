@@ -41,7 +41,6 @@ const stackOptions = {
   headerShadowVisible: false,
 };
 
-// แท็บลูกค้า: เลือกโต๊ะ -> เมนู -> ตะกร้า -> สรุปบิล (ส่งแค่ billId ข้ามหน้า)
 function CustomerStackScreen() {
   return (
     <CustomerStack.Navigator screenOptions={stackOptions}>
@@ -53,32 +52,64 @@ function CustomerStackScreen() {
       <CustomerStack.Screen
         name={ROUTES.openTable}
         component={OpenTableScreen}
-        options={{ presentation: "transparentModal", animation: "fade", headerShown: false }}
+        options={{
+          presentation: "transparentModal",
+          animation: "fade",
+          headerShown: false,
+        }}
       />
-      <CustomerStack.Screen name={ROUTES.menu} component={MenuScreen} options={{ title: "เมนู" }} />
-      <CustomerStack.Screen name={ROUTES.cart} component={CartScreen} options={{ title: "ตะกร้า" }} />
-      <CustomerStack.Screen name={ROUTES.bill} component={BillScreen} options={{ title: "สรุปบิล" }} />
+      <CustomerStack.Screen
+        name={ROUTES.menu}
+        component={MenuScreen}
+        options={{ title: "เมนู" }}
+      />
+      <CustomerStack.Screen
+        name={ROUTES.cart}
+        component={CartScreen}
+        options={{ title: "ตะกร้า" }}
+      />
+      <CustomerStack.Screen
+        name={ROUTES.bill}
+        component={BillScreen}
+        options={{ title: "สรุปบิล" }}
+      />
     </CustomerStack.Navigator>
   );
 }
 
-// แท็บร้าน: ประวัติบิล + จัดการเมนู + ล้างข้อมูล
 function StoreStackScreen() {
   return (
     <StoreStack.Navigator screenOptions={stackOptions}>
-      <StoreStack.Screen name={ROUTES.storeHome} component={StoreHomeScreen} options={{ title: "ร้าน" }} />
-      <StoreStack.Screen name={ROUTES.bill} component={BillScreen} options={{ title: "บิลย้อนหลัง" }} />
-      <StoreStack.Screen name={ROUTES.menuManage} component={MenuManageScreen} options={{ title: "จัดการเมนู" }} />
-      <StoreStack.Screen name={ROUTES.menuForm} component={MenuFormScreen} options={{ title: "เมนู" }} />
+      <StoreStack.Screen
+        name={ROUTES.storeHome}
+        component={StoreHomeScreen}
+        options={{ title: "ร้าน" }}
+      />
+      <StoreStack.Screen
+        name={ROUTES.bill}
+        component={BillScreen}
+        options={{ title: "บิลย้อนหลัง" }}
+      />
+      <StoreStack.Screen
+        name={ROUTES.menuManage}
+        component={MenuManageScreen}
+        options={{ title: "จัดการเมนู" }}
+      />
+      <StoreStack.Screen
+        name={ROUTES.menuForm}
+        component={MenuFormScreen}
+        options={{ title: "เมนู" }}
+      />
     </StoreStack.Navigator>
   );
 }
 
 function tabIcon(name) {
-  return ({ color, size }) => <Ionicons name={name} size={size} color={color} />;
+  return ({ color, size }) => (
+    <Ionicons name={name} size={size} color={color} />
+  );
 }
 
-// แท็บหลักของแอป (ลูกค้า ครัว ร้าน) อยู่ถัดจากหน้า Welcome
 function MainTabs() {
   const { kitchenNoticeCount, refreshKitchenNotices } = useNotices();
 
@@ -128,7 +159,6 @@ function MainTabs() {
   );
 }
 
-// เปิดแอปมาเจอหน้า Welcome ก่อน กดย้อนกลับจากแท็บจะกลับมาหน้านี้
 export default function AppNavigator() {
   return (
     <NavigationContainer theme={navigationTheme}>

@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors, font, radius, space } from "./theme";
 
-// สไตล์ที่ใช้ซ้ำหลายหน้า: ปุ่ม ชิป ช่องกรอก หน้าว่าง
 export const common = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.paper },
 
@@ -14,7 +13,6 @@ export const common = StyleSheet.create({
     backgroundColor: colors.chili,
   },
   buttonText: { color: colors.surface, fontSize: font.body, fontWeight: "700" },
-  // ปุ่มยืนยันงานเสร็จ (สีเขียว) เช่น "ทำเสร็จแล้ว" ในหน้าครัว
   buttonSuccess: { backgroundColor: colors.jade },
   buttonOutline: {
     backgroundColor: colors.surface,
@@ -54,9 +52,12 @@ export const common = StyleSheet.create({
     marginBottom: space.xs,
   },
 
-  // ปุ่มข้อความที่แถบหัว (HeaderTextButton)
   headerButton: { paddingHorizontal: space.md, paddingVertical: space.sm },
-  headerButtonText: { color: colors.chili, fontSize: font.body, fontWeight: "700" },
+  headerButtonText: {
+    color: colors.chili,
+    fontSize: font.body,
+    fontWeight: "700",
+  },
 
   emptyBox: {
     alignItems: "center",
@@ -65,5 +66,9 @@ export const common = StyleSheet.create({
     gap: space.sm,
   },
   emptyTitle: { color: colors.ink, fontSize: font.title, fontWeight: "700" },
-  emptyText: { color: colors.inkSoft, fontSize: font.body, textAlign: "center" },
+  emptyText: {
+    color: colors.inkSoft,
+    fontSize: font.body,
+    textAlign: "center",
+  },
 });

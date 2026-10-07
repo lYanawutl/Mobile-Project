@@ -4,7 +4,6 @@ import CartPanel from "../components/CartPanel";
 import { ROUTES } from "../navigation/routes";
 import { common } from "../styles/commonStyles";
 
-// หน้าตะกร้าเต็มจอ ใช้บนจอแคบ (จอกว้างแสดงตะกร้าเป็นแผงขวาของหน้าเมนูแทน)
 export default function CartScreen({ navigation, route }) {
   const { billId } = route.params;
   const insets = useSafeAreaInsets();

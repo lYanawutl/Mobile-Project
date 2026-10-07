@@ -1,5 +1,12 @@
 import { useCallback, useLayoutEffect, useState } from "react";
-import { FlatList, Pressable, Switch, Text, TextInput, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  Switch,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import HeaderTextButton from "../components/HeaderTextButton";
 import MenuPhoto from "../components/MenuPhoto";
@@ -12,7 +19,6 @@ import { colors } from "../styles/theme";
 import { showError } from "../utils/alerts";
 import { formatBaht } from "../utils/format";
 
-// ข5: ตั้งค่าเมนูในแอป เพิ่ม แก้ราคา หรือปิดการขายชั่วคราว
 export default function MenuManageScreen({ navigation }) {
   const db = useSQLiteContext();
   const [items, setItems] = useState([]);
@@ -67,11 +73,15 @@ export default function MenuManageScreen({ navigation }) {
         ListEmptyComponent={
           <View style={common.emptyBox}>
             <Text style={common.emptyTitle}>ไม่พบเมนู</Text>
-            <Text style={common.emptyText}>ลองเปลี่ยนคำค้นหา หรือกด "เพิ่มเมนู"</Text>
+            <Text style={common.emptyText}>
+              ลองเปลี่ยนคำค้นหา หรือกด "เพิ่มเมนู"
+            </Text>
           </View>
         }
         renderItem={({ item }) => (
-          <View style={[styles.row, item.is_available !== 1 && styles.rowSoldOut]}>
+          <View
+            style={[styles.row, item.is_available !== 1 && styles.rowSoldOut]}
+          >
             <MenuPhoto image={item.image} style={styles.photo} />
             <View style={styles.body}>
               <Text style={styles.name}>{item.name}</Text>
@@ -80,7 +90,9 @@ export default function MenuManageScreen({ navigation }) {
             </View>
             <Pressable
               accessibilityLabel={`แก้ไข ${item.name}`}
-              onPress={() => navigation.navigate(ROUTES.menuForm, { menuItemId: item.id })}
+              onPress={() =>
+                navigation.navigate(ROUTES.menuForm, { menuItemId: item.id })
+              }
               style={styles.edit}
             >
               <Text style={styles.editText}>แก้ไข</Text>

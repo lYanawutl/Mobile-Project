@@ -1,11 +1,7 @@
-// คำสั่ง SQL ของเมนู หมวดหมู่ และตัวเลือก (รวมส่วนตั้งค่าเมนู ข5)
-// ค่าจากผู้ใช้ทุกค่าส่งผ่านเครื่องหมาย ? เท่านั้น
-
 export async function getCategories(db) {
   return db.getAllAsync("SELECT id, name FROM categories ORDER BY id");
 }
 
-// search ว่าง = ทุกเมนู, categoryId 0 = ทุกหมวด, onlyAvailable = เฉพาะรายการที่มีของ (ข2)
 export async function getMenuItems(
   db,
   { search = "", categoryId = 0, onlyAvailable = false } = {},
@@ -35,7 +31,6 @@ export async function getMenuItemById(db, menuItemId) {
   );
 }
 
-// ตัวเลือกที่เมนูนี้เลือกเพิ่มได้ (ผ่านตารางจับคู่ menu_item_options)
 export async function getMenuItemOptions(db, menuItemId) {
   return db.getAllAsync(
     `SELECT o.id, o.name, o.price_delta
@@ -53,8 +48,6 @@ export async function getAllOptions(db) {
   );
 }
 
-// เพิ่มเมนูใหม่พร้อมตัวเลือกที่ใช้ได้ ในทรานแซกชันเดียว
-// image เป็น null ได้ (ไม่มีรูป)
 export async function addMenuItem(
   db,
   { categoryId, name, price, image, optionIds },
@@ -76,8 +69,6 @@ export async function addMenuItem(
   return newId;
 }
 
-// แก้ราคา รูป และตัวเลือกของเมนู บิลเก่าไม่เปลี่ยนเพราะเก็บราคา ณ ตอนสั่งไว้แล้ว
-// ไม่ให้แก้ชื่อ เพื่อไม่ให้ชื่อรายการในบิลเก่าเปลี่ยนตาม
 export async function updateMenuItem(
   db,
   menuItemId,

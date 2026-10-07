@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors, font, space } from "./theme";
 
-// สไตล์ของแถบหัวและแถบแท็บของ React Navigation
 export const styles = StyleSheet.create({
   header: { backgroundColor: colors.paper },
   headerTitle: { color: colors.ink, fontSize: font.title, fontWeight: "800" },

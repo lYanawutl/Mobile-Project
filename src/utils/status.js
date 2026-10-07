@@ -1,6 +1,3 @@
-// ค่าสถานะที่เก็บในฐานข้อมูล (ต้องตรงกับ CHECK ใน schema.sql) และป้ายภาษาไทยสำหรับแสดงผล
-// โค้ด JS เทียบสถานะผ่านค่าคงที่ในไฟล์นี้ แทนการพิมพ์ข้อความเองหลายที่
-
 export const ORDER_STATUS = {
   pending: "pending",
   cooking: "cooking",
@@ -33,4 +30,8 @@ export const CANCEL_BY_LABEL = {
 };
 
 export const CUSTOMER_CANCEL_REASONS = ["สั่งผิด", "เปลี่ยนใจ", "รอนานเกินไป"];
-export const KITCHEN_CANCEL_REASONS = ["ของหมด", "วัตถุดิบไม่พอ", "ลูกค้าแจ้งเปลี่ยน"];
+export const KITCHEN_CANCEL_REASONS = [
+  "ของหมด",
+  "วัตถุดิบไม่พอ",
+  "ลูกค้าแจ้งเปลี่ยน",
+];

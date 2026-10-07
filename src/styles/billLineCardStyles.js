@@ -11,7 +11,11 @@ export const styles = StyleSheet.create({
     gap: space.xs,
     marginBottom: space.sm,
   },
-  lineTop: { flexDirection: "row", justifyContent: "space-between", gap: space.md },
+  lineTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: space.md,
+  },
   name: { flex: 1, color: colors.ink, fontSize: font.title, fontWeight: "700" },
   lineTotal: { color: colors.ink, fontSize: font.title, fontWeight: "700" },
   struck: { textDecorationLine: "line-through", color: colors.slate },

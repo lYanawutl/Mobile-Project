@@ -1,8 +1,5 @@
-// คำสั่ง SQL ของการสั่งอาหาร: ตัวอย่างตะกร้า ส่งหนึ่งรอบ และยกเลิกรายการ
 import { BILL_STATUS } from "../utils/status";
 
-// ตัวอย่างตะกร้าก่อนส่ง ตะกร้าอยู่ใน JS state จึงส่งเข้า SQL เป็น JSON หนึ่งก้อน
-// แล้วให้ SQL คำนวณราคารายการและยอดรวม (ราคาจากเมนูปัจจุบัน ตรงกับที่จะบันทึกตอนส่ง)
 export async function getCartPreview(db, cartLines) {
   const cartJson = JSON.stringify(
     cartLines.map((line) => ({
@@ -41,13 +38,6 @@ export async function getCartPreview(db, cartLines) {
   );
 }
 
-// ส่งออร์เดอร์หนึ่งรอบ: สร้างรอบ + ทุกรายการ + ตัวเลือก ในทรานแซกชันเดียว (ข้อ 6)
-// ถ้ารายการใดล้ม ทั้งรอบย้อนกลับ ครัวจะไม่เห็นออร์เดอร์ครึ่งเดียว
-// ราคา ณ ตอนสั่งคัดลอกจากเมนูด้วย INSERT ... SELECT ในคำสั่งเดียวกัน
-//
-// ใช้ withTransactionAsync ไม่ใช้ withExclusiveTransactionAsync เพราะแบบ exclusive
-// เปิดการเชื่อมต่อใหม่ ซึ่งไม่มี PRAGMA foreign_keys = ON ที่ตั้งไว้ใน initDB
-// (ค่า foreign_keys ผูกกับการเชื่อมต่อ) FOREIGN KEY จะไม่ถูกตรวจในทรานแซกชันนั้น
 export async function sendOrderRound(db, billId, cartLines) {
   if (cartLines.length === 0) {
     throw new Error("ตะกร้าว่าง ยังไม่มีรายการให้ส่ง");
@@ -63,7 +53,6 @@ export async function sendOrderRound(db, billId, cartLines) {
       throw new Error("บิลนี้ปิดแล้วหรือไม่พบบิล");
     }
 
-    // เลขรอบถัดไปของบิลนี้ (รอบที่เท่าไรของบิล)
     const round = await db.runAsync(
       `INSERT INTO order_rounds (bill_id, round_no)
        SELECT ?, COALESCE(MAX(round_no), 0) + 1
@@ -86,12 +75,15 @@ export async function sendOrderRound(db, billId, cartLines) {
           [line.menuItemId],
         );
         throw new Error(
-          ["เมนู", menu ? menu.name : "ที่เลือก", "ปิดการขายอยู่ สั่งไม่ได้"].join(" "),
+          [
+            "เมนู",
+            menu ? menu.name : "ที่เลือก",
+            "ปิดการขายอยู่ สั่งไม่ได้",
+          ].join(" "),
         );
       }
 
       for (const optionId of line.optionIds) {
-        // ตัวเลือกต้องเป็นของเมนูนี้จริง (เช็กผ่านตารางจับคู่)
         const option = await db.runAsync(
           `INSERT INTO order_item_options (order_item_id, option_id, price_delta)
            SELECT ?, o.id, o.price_delta
@@ -109,8 +101,6 @@ export async function sendOrderRound(db, billId, cartLines) {
   return roundId;
 }
 
-// ยกเลิกได้เฉพาะรายการที่ยังรอทำ (ข3) เงื่อนไขอยู่ใน WHERE ของคำสั่งเดียว
-// cancelledBy: 'customer' หรือ 'kitchen' คืน true ถ้ายกเลิกสำเร็จ
 export async function cancelOrderItem(db, orderItemId, cancelledBy, reason) {
   const result = await db.runAsync(
     `UPDATE order_items

@@ -5,7 +5,6 @@ const DOT = 24;
 
 export const styles = StyleSheet.create({
   wrap: { paddingVertical: space.md },
-  // เส้นเชื่อมระหว่างวงกลม วางไว้ด้านหลัง
   line: {
     position: "absolute",
     top: space.md + DOT / 2 - 1,
@@ -28,7 +27,12 @@ export const styles = StyleSheet.create({
   },
   dotDone: { backgroundColor: colors.jade, borderColor: colors.jade },
   dotCurrent: { backgroundColor: colors.chili, borderColor: colors.chili },
-  dotCenter: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.surface },
+  dotCenter: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.surface,
+  },
   label: { color: colors.inkSoft, fontSize: font.small, textAlign: "center" },
   labelCurrent: { color: colors.ink, fontWeight: "800" },
   time: { color: colors.slate, fontSize: 12 },

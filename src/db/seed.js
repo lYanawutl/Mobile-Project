@@ -1,9 +1,3 @@
-// ข้อมูลตั้งต้น: หมวดหมู่ เมนู ตัวเลือก และโต๊ะ
-// ราคาเป็นจำนวนเต็มหน่วยบาท ทุกค่าส่งเข้า SQL ผ่านเครื่องหมาย ? เท่านั้น
-// รูปเมนู: วางไฟล์รูปในโฟลเดอร์ lip/ แล้วใส่ชื่อไฟล์ในรายการที่ต้องการ (ไม่ใส่ = ไม่มีรูป) เช่น
-//   { name: "กะเพราหมูสับ", price: 60, options: RICE_OPTIONS, image: "kra-prao.jpg" },
-// เสร็จแล้วรัน npm run images เพื่อสร้าง src/utils/menuImages.js ใหม่
-
 const TABLE_COUNT = 15;
 
 const SEED_OPTIONS = [
@@ -15,17 +9,46 @@ const SEED_OPTIONS = [
 const RICE_OPTIONS = ["ไข่ดาว", "พิเศษ"];
 const DRINK_OPTIONS = ["ไข่มุก"];
 
-// 5 หมวด รวม 27 รายการ (โจทย์ขั้นต่ำ 4 หมวด หมวดละ 5 รวม 25)
 const SEED_MENU = [
   {
     name: "อาหารจานเดียว",
     items: [
-      { name: "กะเพราหมูสับ", price: 50, options: RICE_OPTIONS, image: "kra-prao.jpg" },
-      { name: "ข้าวผัดกุ้ง", price: 60, options: RICE_OPTIONS, image: "shrimp-fried-rice.jpg" },
-      { name: "ผัดซีอิ๊ว", price: 50, options: RICE_OPTIONS, image: "stir-fried.jpg" },
-      { name: "ข้าวมันไก่", price: 50, options: RICE_OPTIONS, image: "chicken-rice.jpg" },
-      { name: "ราดหน้า", price: 40, options: RICE_OPTIONS, image: "noodle-soup.jpg" },
-      { name: "ข้าวไข่เจียวหมูสับ", price: 40, options: RICE_OPTIONS, image: "egg-fried-rice.jpg" },
+      {
+        name: "กะเพราหมูสับ",
+        price: 50,
+        options: RICE_OPTIONS,
+        image: "kra-prao.jpg",
+      },
+      {
+        name: "ข้าวผัดกุ้ง",
+        price: 60,
+        options: RICE_OPTIONS,
+        image: "shrimp-fried-rice.jpg",
+      },
+      {
+        name: "ผัดซีอิ๊ว",
+        price: 50,
+        options: RICE_OPTIONS,
+        image: "stir-fried.jpg",
+      },
+      {
+        name: "ข้าวมันไก่",
+        price: 50,
+        options: RICE_OPTIONS,
+        image: "chicken-rice.jpg",
+      },
+      {
+        name: "ราดหน้า",
+        price: 40,
+        options: RICE_OPTIONS,
+        image: "noodle-soup.jpg",
+      },
+      {
+        name: "ข้าวไข่เจียวหมูสับ",
+        price: 40,
+        options: RICE_OPTIONS,
+        image: "egg-fried-rice.jpg",
+      },
     ],
   },
   {
@@ -33,7 +56,11 @@ const SEED_MENU = [
     items: [
       { name: "ต้มยำกุ้ง", price: 150, image: "tom-yum-shrimp.jpg" },
       { name: "แกงเขียวหวานไก่", price: 100, image: "green-curry-chicken.jpg" },
-      { name: "ผัดผักบุ้งไฟแดง", price: 80, image: "stir-fried-vegetables.jpg" },
+      {
+        name: "ผัดผักบุ้งไฟแดง",
+        price: 80,
+        image: "stir-fried-vegetables.jpg",
+      },
       { name: "ปลาทอดน้ำปลา", price: 130, image: "fried-fish.jpg" },
       { name: "ไข่พะโล้", price: 60, image: "egg-curry.jpg" },
     ],
@@ -52,8 +79,18 @@ const SEED_MENU = [
     name: "เครื่องดื่ม",
     items: [
       { name: "ชาเย็น", price: 40, options: DRINK_OPTIONS, image: "tea.jpg" },
-      { name: "กาแฟเย็น", price: 40, options: DRINK_OPTIONS, image: "iced-coffee.jpg" },
-      { name: "ชามะนาว", price: 40, options: DRINK_OPTIONS, image: "lemon-tea.jpg" },
+      {
+        name: "กาแฟเย็น",
+        price: 40,
+        options: DRINK_OPTIONS,
+        image: "iced-coffee.jpg",
+      },
+      {
+        name: "ชามะนาว",
+        price: 40,
+        options: DRINK_OPTIONS,
+        image: "lemon-tea.jpg",
+      },
       { name: "น้ำมะนาวโซดา", price: 40, image: "lemon-soda.jpg" },
       { name: "น้ำส้มคั้น", price: 50, image: "orange-juice.jpg" },
       { name: "น้ำเปล่า", price: 10, image: "water.jpg" },
@@ -71,8 +108,6 @@ const SEED_MENU = [
   },
 ];
 
-// ต้องเรียกภายในทรานแซกชันที่ผู้เรียกเปิดไว้ (initDB และ resetAllData)
-// เพื่อให้ใส่ข้อมูลตั้งต้นสำเร็จทั้งชุดหรือไม่เข้าเลย
 export async function seedInitialData(db) {
   const optionIds = new Map();
   for (const option of SEED_OPTIONS) {
@@ -92,7 +127,12 @@ export async function seedInitialData(db) {
     for (const item of category.items) {
       const itemResult = await db.runAsync(
         "INSERT INTO menu_items (category_id, name, price, image) VALUES (?, ?, ?, ?)",
-        [categoryResult.lastInsertRowId, item.name, item.price, item.image ?? null],
+        [
+          categoryResult.lastInsertRowId,
+          item.name,
+          item.price,
+          item.image ?? null,
+        ],
       );
 
       for (const optionName of item.options ?? []) {

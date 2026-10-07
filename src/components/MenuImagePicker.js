@@ -3,8 +3,6 @@ import MenuPhoto from "./MenuPhoto";
 import { styles } from "../styles/menuImagePickerStyles";
 import { MENU_IMAGE_NAMES } from "../utils/menuImages";
 
-// เลือกรูปเมนูจากรูปที่แพ็กมากับแอป (โฟลเดอร์ lip/) ตัวแรกคือ "ไม่มีรูป"
-// value = ชื่อไฟล์ที่เลือก หรือ null
 export default function MenuImagePicker({ value, onChange }) {
   if (MENU_IMAGE_NAMES.length === 0) {
     return (
@@ -16,7 +14,11 @@ export default function MenuImagePicker({ value, onChange }) {
 
   const choices = [null, ...MENU_IMAGE_NAMES];
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.row}
+    >
       {choices.map((name) => {
         const active = value === name;
         const label = name ?? "ไม่มีรูป";

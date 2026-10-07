@@ -4,15 +4,26 @@ import { common } from "../styles/commonStyles";
 import { styles } from "../styles/kitchenNoticeModalStyles";
 import { formatDateTime } from "../utils/format";
 
-// หน้าต่างแจ้งเตือนของครัว (เปิดจากกระดิ่ง): รายการที่ลูกค้ายกเลิกและครัวยังไม่รับทราบ
-export default function KitchenNoticeModal({ visible, notices, onClose, onAcknowledge }) {
+export default function KitchenNoticeModal({
+  visible,
+  notices,
+  onClose,
+  onAcknowledge,
+}) {
   return (
-    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}
+    >
       <View style={styles.backdrop}>
         <View style={styles.panel}>
           <Text style={styles.title}>การแจ้งเตือน</Text>
           <ScrollView contentContainerStyle={styles.list}>
-            {notices.length === 0 && <Text style={styles.empty}>ไม่มีการแจ้งเตือนใหม่</Text>}
+            {notices.length === 0 && (
+              <Text style={styles.empty}>ไม่มีการแจ้งเตือนใหม่</Text>
+            )}
             {notices.map((notice) => (
               <NoticeCard
                 key={notice.id}
@@ -28,7 +39,9 @@ export default function KitchenNoticeModal({ visible, notices, onClose, onAcknow
             onPress={onClose}
             style={[common.button, common.buttonOutline]}
           >
-            <Text style={[common.buttonText, common.buttonOutlineText]}>ปิด</Text>
+            <Text style={[common.buttonText, common.buttonOutlineText]}>
+              ปิด
+            </Text>
           </Pressable>
         </View>
       </View>

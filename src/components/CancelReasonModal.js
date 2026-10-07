@@ -12,8 +12,6 @@ import { common } from "../styles/commonStyles";
 import { styles } from "../styles/cancelReasonModalStyles";
 import { colors } from "../styles/theme";
 
-// หน้าต่างกรอกเหตุผลยกเลิกรายการ (ข3) ใช้ร่วมกันทั้งฝั่งลูกค้าและฝั่งครัว
-// ต้องมีเหตุผลก่อนจึงกดยืนยันได้ มีปุ่มลัดให้เลือก
 export default function CancelReasonModal({
   visible,
   itemLabel,
@@ -32,7 +30,12 @@ export default function CancelReasonModal({
   const canSubmit = reason.trim().length > 0;
 
   return (
-    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.backdrop}
@@ -51,7 +54,12 @@ export default function CancelReasonModal({
                 onPress={() => setReason(quick)}
                 style={[common.chip, reason === quick && common.chipActive]}
               >
-                <Text style={[common.chipText, reason === quick && common.chipTextActive]}>
+                <Text
+                  style={[
+                    common.chipText,
+                    reason === quick && common.chipTextActive,
+                  ]}
+                >
                   {quick}
                 </Text>
               </Pressable>
@@ -75,15 +83,26 @@ export default function CancelReasonModal({
               onPress={onClose}
               style={[common.button, common.buttonOutline, styles.action]}
             >
-              <Text style={[common.buttonText, common.buttonOutlineText]}>ไม่ยกเลิก</Text>
+              <Text style={[common.buttonText, common.buttonOutlineText]}>
+                ไม่ยกเลิก
+              </Text>
             </Pressable>
             <Pressable
               accessibilityLabel="ยืนยันยกเลิก"
               disabled={!canSubmit}
               onPress={() => onSubmit(reason.trim())}
-              style={[common.button, styles.action, !canSubmit && common.buttonDisabled]}
+              style={[
+                common.button,
+                styles.action,
+                !canSubmit && common.buttonDisabled,
+              ]}
             >
-              <Text style={[common.buttonText, !canSubmit && common.buttonDisabledText]}>
+              <Text
+                style={[
+                  common.buttonText,
+                  !canSubmit && common.buttonDisabledText,
+                ]}
+              >
                 ยืนยันยกเลิก
               </Text>
             </Pressable>

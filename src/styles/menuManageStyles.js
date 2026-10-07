@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
     borderColor: colors.line,
     padding: space.md,
   },
-  // เมนูที่ปิดขาย: รูปและข้อความจางลง ให้เห็นต่างจากเมนูที่ขายอยู่
   rowSoldOut: { opacity: 0.6 },
   photo: { width: 72, height: 72, borderRadius: radius.sm },
   body: { flex: 1, gap: space.xs },

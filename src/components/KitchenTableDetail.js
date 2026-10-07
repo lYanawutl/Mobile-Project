@@ -10,10 +10,12 @@ import { formatBaht, formatTime } from "../utils/format";
 import { ITEM_ACTION_LABEL, primaryActionOf } from "../utils/kitchen";
 import { ORDER_STATUS } from "../utils/status";
 
-// รายละเอียดของโต๊ะที่เลือกในหน้าครัว
-// แต่ละรายการเปลี่ยนสถานะทีละขั้นได้ (ก8) รายการที่รอทำมีเมนูให้ยกเลิก (ข3)
-// ปุ่มด้านล่างเลื่อนทุกรายการที่อยู่สถานะเดียวกันไปขั้นถัดไปพร้อมกัน
-export default function KitchenTableDetail({ table, onAdvanceItem, onItemMenu, onPrimaryAction }) {
+export default function KitchenTableDetail({
+  table,
+  onAdvanceItem,
+  onItemMenu,
+  onPrimaryAction,
+}) {
   const primary = primaryActionOf(table.items);
 
   return (
@@ -26,7 +28,9 @@ export default function KitchenTableDetail({ table, onAdvanceItem, onItemMenu, o
               <Ionicons name="person" size={14} color={colors.inkSoft} />
               <Text style={styles.meta}>{table.guestCount} คน</Text>
               <Ionicons name="timer-outline" size={14} color={colors.inkSoft} />
-              <Text style={styles.meta}>สั่งเมื่อ {formatTime(table.firstOrderedAt)}</Text>
+              <Text style={styles.meta}>
+                สั่งเมื่อ {formatTime(table.firstOrderedAt)}
+              </Text>
             </View>
           </View>
           <StatusBadge status={table.status} />
@@ -35,33 +39,51 @@ export default function KitchenTableDetail({ table, onAdvanceItem, onItemMenu, o
         <OrderProgress status={table.status} orderedAt={table.firstOrderedAt} />
 
         <View style={styles.itemsCard}>
-          <Text style={styles.sectionTitle}>รายการอาหาร ({table.items.length} รายการ)</Text>
+          <Text style={styles.sectionTitle}>
+            รายการอาหาร ({table.items.length} รายการ)
+          </Text>
           {table.items.map((item) => (
             <View key={item.id} style={styles.row}>
               <MenuPhoto image={item.image} style={styles.rowPhoto} />
               <View style={styles.rowBody}>
                 <Text style={styles.rowName}>{item.name}</Text>
                 <Text style={styles.rowMeta}>
-                  ×{item.quantity} · รอบที่ {item.round_no} · {formatTime(item.ordered_at)}
+                  ×{item.quantity} · รอบที่ {item.round_no} ·{" "}
+                  {formatTime(item.ordered_at)}
                 </Text>
-                {item.options_text !== "" && <Text style={styles.rowMeta}>{item.options_text}</Text>}
-                {item.note !== "" && <Text style={styles.rowNote}>หมายเหตุ: {item.note}</Text>}
+                {item.options_text !== "" && (
+                  <Text style={styles.rowMeta}>{item.options_text}</Text>
+                )}
+                {item.note !== "" && (
+                  <Text style={styles.rowNote}>หมายเหตุ: {item.note}</Text>
+                )}
                 <StatusBadge status={item.status} size="small" />
               </View>
               <View style={styles.rowSide}>
-                <Text style={styles.rowPrice}>{formatBaht(item.line_total)}</Text>
+                <Text style={styles.rowPrice}>
+                  {formatBaht(item.line_total)}
+                </Text>
                 <Pressable
                   accessibilityLabel={`${ITEM_ACTION_LABEL[item.status]} ${item.name}`}
                   onPress={() => onAdvanceItem(item)}
                   style={styles.rowAction}
                 >
-                  <Text style={styles.rowActionText}>{ITEM_ACTION_LABEL[item.status]}</Text>
+                  <Text style={styles.rowActionText}>
+                    {ITEM_ACTION_LABEL[item.status]}
+                  </Text>
                 </Pressable>
               </View>
               <View style={styles.menuButton}>
                 {item.status === ORDER_STATUS.pending && (
-                  <Pressable accessibilityLabel={`ตัวเลือก ${item.name}`} onPress={() => onItemMenu(item)}>
-                    <Ionicons name="ellipsis-vertical" size={20} color={colors.inkSoft} />
+                  <Pressable
+                    accessibilityLabel={`ตัวเลือก ${item.name}`}
+                    onPress={() => onItemMenu(item)}
+                  >
+                    <Ionicons
+                      name="ellipsis-vertical"
+                      size={20}
+                      color={colors.inkSoft}
+                    />
                   </Pressable>
                 )}
               </View>
@@ -78,7 +100,11 @@ export default function KitchenTableDetail({ table, onAdvanceItem, onItemMenu, o
             style={[common.button, common.buttonSuccess]}
           >
             <View style={styles.primaryContent}>
-              <Ionicons name="checkmark-circle" size={22} color={colors.surface} />
+              <Ionicons
+                name="checkmark-circle"
+                size={22}
+                color={colors.surface}
+              />
               <Text style={common.buttonText}>{primary.label}</Text>
             </View>
           </Pressable>

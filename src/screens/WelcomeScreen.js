@@ -6,10 +6,8 @@ import { common } from "../styles/commonStyles";
 import { colors, layout } from "../styles/theme";
 import { styles } from "../styles/welcomeStyles";
 
-// แก้ชื่อร้านได้ที่นี่ที่เดียว
 const SHOP_NAME = "ครัวตามสั่ง";
 
-// หน้าแรกของแอป กด "เริ่มสั่งอาหาร" แล้วเข้าแท็บลูกค้า (หน้าเลือกโต๊ะ)
 export default function WelcomeScreen({ navigation }) {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
@@ -21,12 +19,19 @@ export default function WelcomeScreen({ navigation }) {
 
   return (
     <View
-      style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}
+      style={[
+        styles.container,
+        { paddingTop: insets.top, paddingBottom: insets.bottom },
+      ]}
     >
       <View style={[styles.content, isWide && styles.contentWide]}>
         <View style={[styles.plate, isWide && styles.plateWide]}>
           <View style={[styles.plateInner, isWide && styles.plateInnerWide]}>
-            <Ionicons name="restaurant" size={isWide ? 96 : 72} color={colors.chili} />
+            <Ionicons
+              name="restaurant"
+              size={isWide ? 96 : 72}
+              color={colors.chili}
+            />
           </View>
         </View>
 
@@ -43,13 +48,21 @@ export default function WelcomeScreen({ navigation }) {
               onPress={startOrdering}
               style={[common.button, styles.primaryButton]}
             >
-              <Text style={[common.buttonText, styles.primaryText]}>เริ่มสั่งอาหาร</Text>
+              <Text style={[common.buttonText, styles.primaryText]}>
+                เริ่มสั่งอาหาร
+              </Text>
             </Pressable>
           </View>
 
           <View style={styles.footnote}>
-            <Ionicons name="cloud-offline-outline" size={16} color={colors.slate} />
-            <Text style={styles.footnoteText}>ใช้งานได้แม้ไม่มีอินเทอร์เน็ต</Text>
+            <Ionicons
+              name="cloud-offline-outline"
+              size={16}
+              color={colors.slate}
+            />
+            <Text style={styles.footnoteText}>
+              ใช้งานได้แม้ไม่มีอินเทอร์เน็ต
+            </Text>
           </View>
         </View>
       </View>

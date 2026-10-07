@@ -1,5 +1,12 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import { Alert, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import {
   addMenuItem,
@@ -16,8 +23,6 @@ import { colors } from "../styles/theme";
 import { showError } from "../utils/alerts";
 import { formatBaht } from "../utils/format";
 
-// ข5: เพิ่มเมนูใหม่ (ไม่มี menuItemId) หรือแก้ราคา/รูป/ตัวเลือกของเมนูเดิม
-// ชื่อเมนูแก้ไม่ได้หลังสร้าง เพื่อไม่ให้ชื่อในบิลเก่าเปลี่ยนตาม
 export default function MenuFormScreen({ navigation, route }) {
   const menuItemId = route.params?.menuItemId ?? null;
   const isEdit = menuItemId !== null;
@@ -36,7 +41,6 @@ export default function MenuFormScreen({ navigation, route }) {
     navigation.setOptions({ title: isEdit ? "แก้ไขเมนู" : "เพิ่มเมนู" });
   }, [navigation, isEdit]);
 
-  // โหลดครั้งเดียวตอนเปิดฟอร์ม (หน้าอื่นใช้ useReloadOnFocus แต่ฟอร์มไม่ควรโหลดทับค่าที่กำลังพิมพ์)
   useEffect(() => {
     async function loadForm() {
       try {
@@ -48,7 +52,11 @@ export default function MenuFormScreen({ navigation, route }) {
           setCategoryId(item.category_id);
           setPriceText(String(item.price));
           setImage(item.image);
-          setOptionIds((await getMenuItemOptions(db, menuItemId)).map((option) => option.id));
+          setOptionIds(
+            (await getMenuItemOptions(db, menuItemId)).map(
+              (option) => option.id,
+            ),
+          );
         }
       } catch (loadError) {
         showError(loadError);
@@ -134,7 +142,9 @@ export default function MenuFormScreen({ navigation, route }) {
                 onPress={() => setCategoryId(category.id)}
                 style={[common.chip, active && common.chipActive]}
               >
-                <Text style={[common.chipText, active && common.chipTextActive]}>
+                <Text
+                  style={[common.chipText, active && common.chipTextActive]}
+                >
                   {category.name}
                 </Text>
               </Pressable>
@@ -175,7 +185,9 @@ export default function MenuFormScreen({ navigation, route }) {
                 onPress={() => toggleOption(option.id)}
                 style={[common.chip, active && common.chipActive]}
               >
-                <Text style={[common.chipText, active && common.chipTextActive]}>
+                <Text
+                  style={[common.chipText, active && common.chipTextActive]}
+                >
                   {option.name} +{formatBaht(option.price_delta)}
                 </Text>
               </Pressable>
@@ -186,7 +198,11 @@ export default function MenuFormScreen({ navigation, route }) {
 
       {error !== "" && <Text style={styles.error}>{error}</Text>}
 
-      <Pressable accessibilityLabel="บันทึก" onPress={handleSave} style={common.button}>
+      <Pressable
+        accessibilityLabel="บันทึก"
+        onPress={handleSave}
+        style={common.button}
+      >
         <Text style={common.buttonText}>บันทึก</Text>
       </Pressable>
     </ScrollView>

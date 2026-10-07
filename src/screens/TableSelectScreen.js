@@ -12,12 +12,9 @@ import { colors, layout } from "../styles/theme";
 import { styles } from "../styles/tableSelectStyles";
 import { confirmAction, showError } from "../utils/alerts";
 
-// จอกว้าง: 5 คอลัมน์ (15 โต๊ะ = 3 แถว x 5 คอลัมน์ พอดีจอแท็บเล็ตแนวนอน)
-// จอแคบ: 2 คอลัมน์ เพราะมือถือแนวตั้งกว้างไม่พอวางภาพโต๊ะ 5 ตัวต่อแถว
 const WIDE_COLUMNS = 5;
 const NARROW_COLUMNS = 2;
 
-// ก1: เลือกโต๊ะ แล้วเปิดบิลใหม่ (ผ่านหน้ายืนยัน) หรือเข้าบิลที่เปิดค้างอยู่ของโต๊ะนั้น
 export default function TableSelectScreen({ navigation }) {
   const db = useSQLiteContext();
   const cart = useCart();
@@ -37,14 +34,12 @@ export default function TableSelectScreen({ navigation }) {
 
   useReloadOnFocus(load);
 
-  // เข้าบิลที่เปิดค้างอยู่ของโต๊ะ (ไม่ต้องยืนยัน เพราะบิลมีอยู่แล้ว)
   function enterBill(billId) {
     cart.bindBill(billId);
     navigation.navigate(ROUTES.menu, { billId });
   }
 
   function handleSelect(table) {
-    // โต๊ะว่าง: ไปหน้ายืนยันการเปิดโต๊ะก่อน
     if (table.open_bill_id === null) {
       navigation.navigate(ROUTES.openTable, { tableId: table.id });
       return;
@@ -99,7 +94,6 @@ export default function TableSelectScreen({ navigation }) {
             แตะโต๊ะเพื่อเปิดบิลใหม่ หรือกลับเข้าบิลเดิมเพื่อดูคำสั่งซื้อ
           </Text>
         </View>
-        {/* โลโก้ร้าน: เปลี่ยนเป็นรูปโลโก้จริงภายหลังได้ */}
         <View style={styles.logo}>
           <Ionicons name="leaf-outline" size={24} color={colors.ink} />
         </View>

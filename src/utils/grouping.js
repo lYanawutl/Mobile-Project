@@ -1,5 +1,3 @@
-// จัดแถวที่ SQL เรียงมาแล้วให้เป็นกลุ่ม โดยดูว่าค่าเดียวกับแถวก่อนหน้าหรือไม่
-
 export function groupByCategory(items) {
   const sections = [];
   for (const item of items) {

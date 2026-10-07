@@ -1,8 +1,3 @@
-// คำสั่ง SQL ของโต๊ะและบิล
-// ราคาทุกจุดอ่านจาก VIEW order_lines ซึ่งคำนวณจากราคา ณ ตอนสั่งเท่านั้น
-// ยอดรวมคำนวณด้วย SQL (ไม่วนลูปบวกใน JS) และไม่นับรายการที่ยกเลิก
-
-// โต๊ะทั้งหมด พร้อมบิลที่เปิดอยู่ และจำนวนข้อความ "ครัวยกเลิก" ที่ลูกค้ายังไม่รับทราบ
 export async function getTables(db) {
   return db.getAllAsync(
     `SELECT t.id, t.table_no, b.id AS open_bill_id,
@@ -18,7 +13,6 @@ export async function getTables(db) {
   );
 }
 
-// โต๊ะหนึ่งตัว พร้อมบิลที่เปิดอยู่ (ถ้ามี) ใช้ในหน้ายืนยันการเปิดโต๊ะ
 export async function getTable(db, tableId) {
   return db.getFirstAsync(
     `SELECT t.id, t.table_no, b.id AS open_bill_id
@@ -29,8 +23,6 @@ export async function getTable(db, tableId) {
   );
 }
 
-// เข้าบิลที่เปิดค้างของโต๊ะ ถ้าไม่มีให้เปิดบิลใหม่พร้อมจำนวนลูกค้า (ก1)
-// ดัชนี idx_bills_one_open_per_table กันไม่ให้โต๊ะเดียวมีบิลเปิดสองใบ
 export async function openBill(db, tableId, guestCount = 1) {
   const existing = await db.getFirstAsync(
     "SELECT id FROM bills WHERE table_id = ? AND status = 'open'",
@@ -66,7 +58,6 @@ export async function getBillTotal(db, billId) {
   return row.total;
 }
 
-// ทุกรายการในบิลเรียงตามรอบ พร้อมราคาต่อหน่วยและราคารวมของรายการ (ก6)
 export async function getBillLines(db, billId) {
   return db.getAllAsync(
     `SELECT id, round_no, ordered_at, name, quantity, unit_price, note, status,
@@ -79,7 +70,6 @@ export async function getBillLines(db, billId) {
   );
 }
 
-// รายการที่ยังไม่ได้เสิร์ฟ (ขวางการปิดบิล)
 export async function getUnfinishedItems(db, billId) {
   return db.getAllAsync(
     `SELECT id, name, quantity, status
@@ -90,8 +80,6 @@ export async function getUnfinishedItems(db, billId) {
   );
 }
 
-// ปิดบิลได้เมื่อทุกรายการเสิร์ฟแล้วหรือถูกยกเลิก เงื่อนไขอยู่ใน WHERE ของคำสั่งเดียว
-// คืน true ถ้าปิดสำเร็จ
 export async function closeBill(db, billId) {
   const result = await db.runAsync(
     `UPDATE bills
@@ -106,7 +94,6 @@ export async function closeBill(db, billId) {
   return result.changes > 0;
 }
 
-// ประวัติบิลที่ปิดแล้ว พร้อมยอดรวมของแต่ละบิล (ก10)
 export async function getClosedBills(db) {
   return db.getAllAsync(
     `SELECT b.id, t.table_no, b.opened_at, b.closed_at,
@@ -120,7 +107,6 @@ export async function getClosedBills(db) {
   );
 }
 
-// ฝั่งลูกค้า: รายการที่ครัวยกเลิกและลูกค้ายังไม่กดรับทราบ
 export async function getKitchenCancelNotices(db, billId) {
   return db.getAllAsync(
     `SELECT id, name, quantity, round_no, cancel_reason, cancelled_at

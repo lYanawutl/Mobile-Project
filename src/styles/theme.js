@@ -1,6 +1,3 @@
-// โทนสีแบบชามกระเบื้อง: พื้นขาวนวล หมึกน้ำเงินเข้ม และแดงพริก
-// สีทุกสีในแอปมาจากไฟล์นี้ที่เดียว
-
 export const colors = {
   paper: "#F5F7F5",
   surface: "#FFFFFF",
@@ -17,7 +14,6 @@ export const colors = {
   slateSoft: "#ECEFEE",
   overlay: "rgba(28, 39, 51, 0.45)",
 
-  // หน้าเลือกโต๊ะ (ตอนนี้ใช้โทนขาว-เทา เปลี่ยนสีภายหลังได้ที่นี่ที่เดียว)
   tableScreen: "#FFFFFF",
   tableTop: "#F1F3F2",
   tableTopBusy: "#1C2733",
@@ -31,7 +27,6 @@ export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24 };
 
 export const radius = { sm: 8, md: 12, pill: 999 };
 
-// ขนาดคอลัมน์ของหน้าเมนูแบบจอกว้าง (แท็บเล็ตแนวนอน)
 export const layout = {
   wideBreakpoint: 768,
   sidebarWidth: 180,

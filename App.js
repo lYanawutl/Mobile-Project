@@ -6,7 +6,6 @@ import { NoticeProvider } from "./src/context/NoticeContext";
 import { DATABASE_NAME, initDB } from "./src/db/database";
 import AppNavigator from "./src/navigation/AppNavigator";
 
-// SQLiteProvider เปิดฐานข้อมูลที่เดียวในแอป หน้าจอทุกหน้าใช้ผ่าน useSQLiteContext
 export default function App() {
   return (
     <SQLiteProvider databaseName={DATABASE_NAME} onInit={initDB}>

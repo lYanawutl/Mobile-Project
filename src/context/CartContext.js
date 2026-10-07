@@ -7,8 +7,6 @@ import {
   useState,
 } from "react";
 
-// ตะกร้าของรอบที่กำลังจะสั่ง ผูกกับบิลหนึ่งใบ ยังไม่ลงฐานข้อมูลจนกว่าจะกดส่งเข้าครัว
-
 const CartContext = createContext(null);
 
 function sameLine(a, line) {
@@ -25,7 +23,6 @@ export function CartProvider({ children }) {
   const nextKey = useRef(1);
   const billIdRef = useRef(null);
 
-  // ผูกตะกร้ากับบิล ถ้าเป็นคนละบิลกับที่ค้างอยู่ให้ล้างตะกร้า
   const bindBill = useCallback((id) => {
     if (billIdRef.current !== id) {
       billIdRef.current = id;
@@ -50,7 +47,6 @@ export function CartProvider({ children }) {
     });
   }, []);
 
-  // จำนวนเป็น 0 หรือน้อยกว่า = เอารายการออก
   const setQuantity = useCallback((key, quantity) => {
     setLines((current) =>
       quantity <= 0
@@ -69,7 +65,15 @@ export function CartProvider({ children }) {
   );
 
   const value = useMemo(
-    () => ({ billId, lines, itemCount, bindBill, addLine, setQuantity, clearCart }),
+    () => ({
+      billId,
+      lines,
+      itemCount,
+      bindBill,
+      addLine,
+      setQuantity,
+      clearCart,
+    }),
     [billId, lines, itemCount, bindBill, addLine, setQuantity, clearCart],
   );
 

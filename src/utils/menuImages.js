@@ -1,5 +1,3 @@
-// สร้างอัตโนมัติด้วย scripts/gen-menu-images.cjs (npm run images) ห้ามแก้ด้วยมือ
-// key = ชื่อไฟล์ในโฟลเดอร์ lip/ ตรงกับคอลัมน์ menu_items.image ในฐานข้อมูล
 const MENU_IMAGES = {
   "chicken-rice.jpg": require("../../lip/chicken-rice.jpg"),
   "coconut-ice-cream.jpg": require("../../lip/coconut-ice-cream.jpg"),
@@ -30,10 +28,8 @@ const MENU_IMAGES = {
   "yam-noodle.jpg": require("../../lip/yam-noodle.jpg"),
 };
 
-// ชื่อไฟล์รูปทั้งหมด ใช้ในหน้าเพิ่ม/แก้เมนูให้เลือกรูป
 export const MENU_IMAGE_NAMES = Object.keys(MENU_IMAGES);
 
-// คืนค่าสำหรับ <Image source={...} /> หรือ null ถ้าไม่มีรูป / ไม่พบไฟล์
 export function getMenuImage(imageName) {
   if (!imageName) {
     return null;

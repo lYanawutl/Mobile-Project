@@ -44,12 +44,19 @@ export const styles = StyleSheet.create({
     elevation: 2,
   },
   statusRow: { flexDirection: "row", alignItems: "center", gap: space.xs },
-  statusDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.statusFree },
+  statusDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: colors.statusFree,
+  },
   statusDotBusy: { backgroundColor: colors.statusBusy },
-  statusText: { color: colors.inkSoft, fontSize: font.small, fontWeight: "700" },
+  statusText: {
+    color: colors.inkSoft,
+    fontSize: font.small,
+    fontWeight: "700",
+  },
   statusTextBusy: { color: colors.ink },
-
-  // ครัวยกเลิกรายการของโต๊ะนี้ และลูกค้ายังไม่กดรับทราบ
   noticeBadge: {
     position: "absolute",
     top: space.sm,
@@ -61,5 +68,9 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  noticeText: { color: colors.surface, fontSize: font.small, fontWeight: "800" },
+  noticeText: {
+    color: colors.surface,
+    fontSize: font.small,
+    fontWeight: "800",
+  },
 });

@@ -13,14 +13,14 @@ function PanelTab({ label, accessibilityLabel, active, showDot, onPress }) {
       onPress={onPress}
       style={[styles.tab, active && styles.tabActive]}
     >
-      <Text style={[styles.tabText, active && styles.tabTextActive]}>{label}</Text>
+      <Text style={[styles.tabText, active && styles.tabTextActive]}>
+        {label}
+      </Text>
       {showDot && <View style={styles.tabDot} />}
     </Pressable>
   );
 }
 
-// แผงขวาของหน้าเมนูจอกว้าง: แท็บ "ตะกร้า" (ยังไม่ส่ง) กับ "ประวัติ" (ส่งเข้าครัวแล้ว)
-// tab ถูกควบคุมจากหน้าเมนู เพราะหน้าเมนูต้องสลับแท็บเองตอนใส่ตะกร้าและตอนส่งเสร็จ
 export default function OrderSidePanel({
   billId,
   tab,
@@ -31,7 +31,8 @@ export default function OrderSidePanel({
   onOpenBill,
 }) {
   const cart = useCart();
-  const cartLabel = cart.itemCount > 0 ? `ตะกร้า (${cart.itemCount})` : "ตะกร้า";
+  const cartLabel =
+    cart.itemCount > 0 ? `ตะกร้า (${cart.itemCount})` : "ตะกร้า";
 
   return (
     <View style={styles.panel}>
@@ -54,7 +55,11 @@ export default function OrderSidePanel({
       {tab === PANEL_TAB.cart ? (
         <CartPanel billId={billId} onSent={onSent} />
       ) : (
-        <BillHistoryPanel billId={billId} refreshKey={historyKey} onOpenBill={onOpenBill} />
+        <BillHistoryPanel
+          billId={billId}
+          refreshKey={historyKey}
+          onOpenBill={onOpenBill}
+        />
       )}
     </View>
   );

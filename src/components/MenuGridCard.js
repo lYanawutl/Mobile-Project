@@ -3,7 +3,6 @@ import MenuPhoto from "./MenuPhoto";
 import { styles } from "../styles/menuGridCardStyles";
 import { formatBaht } from "../utils/format";
 
-// การ์ดเมนูแบบตาราง (จอกว้าง): รูปด้านบน ชื่อ และราคา
 export default function MenuGridCard({ item, onPress }) {
   const available = item.is_available === 1;
 

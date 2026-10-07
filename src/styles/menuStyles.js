@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { colors, font, layout, radius, space } from "./theme";
 
 export const styles = StyleSheet.create({
-  // ----- จอแคบ (มือถือแนวตั้ง) -----
   filters: {
     gap: space.md,
     paddingHorizontal: space.lg,
@@ -42,8 +41,6 @@ export const styles = StyleSheet.create({
     marginLeft: space.sm,
   },
   badgeText: { color: colors.chili, fontSize: font.small, fontWeight: "800" },
-
-  // ----- จอกว้าง (แท็บเล็ตแนวนอน): ค้นหาด้านบน + ตัวกรองซ้าย + ตารางเมนูกลาง (แผงขวาอยู่ใน OrderSidePanel) -----
   wideSearch: {
     paddingHorizontal: space.xl,
     paddingVertical: space.md,

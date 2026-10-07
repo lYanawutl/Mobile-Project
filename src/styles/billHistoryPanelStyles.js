@@ -9,7 +9,11 @@ export const styles = StyleSheet.create({
     borderRadius: radius.md,
     padding: space.md,
   },
-  noticeText: { color: colors.saffron, fontSize: font.small, fontWeight: "800" },
+  noticeText: {
+    color: colors.saffron,
+    fontSize: font.small,
+    fontWeight: "800",
+  },
   roundHeader: {
     color: colors.inkSoft,
     fontSize: font.small,
@@ -24,7 +28,11 @@ export const styles = StyleSheet.create({
     padding: space.md,
     gap: space.xs,
   },
-  rowTop: { flexDirection: "row", justifyContent: "space-between", gap: space.sm },
+  rowTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: space.sm,
+  },
   name: { flex: 1, color: colors.ink, fontSize: font.body, fontWeight: "700" },
   amount: { color: colors.ink, fontSize: font.body, fontWeight: "700" },
   struck: { textDecorationLine: "line-through", color: colors.slate },
@@ -35,7 +43,11 @@ export const styles = StyleSheet.create({
     padding: space.lg,
     gap: space.md,
   },
-  totalRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
+  totalRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+  },
   totalLabel: { color: colors.inkSoft, fontSize: font.body },
   totalValue: { color: colors.ink, fontSize: font.heading, fontWeight: "800" },
 });
