@@ -5,31 +5,10 @@ import { colors } from "../styles/theme";
 import { KITCHEN_FILTER } from "../utils/kitchen";
 
 const TABS = [
-  {
-    key: KITCHEN_FILTER.all,
-    label: "ทั้งหมด",
-    icon: "room-service-outline",
-    family: "mci",
-    color: colors.ink,
-  },
-  {
-    key: KITCHEN_FILTER.cooking,
-    label: "กำลังทำ",
-    icon: "flame",
-    color: colors.chili,
-  },
-  {
-    key: KITCHEN_FILTER.ready,
-    label: "พร้อมเสิร์ฟ",
-    icon: "checkmark-circle-outline",
-    color: colors.jade,
-  },
-  {
-    key: KITCHEN_FILTER.pending,
-    label: "รอทำ",
-    icon: "time-outline",
-    color: colors.inkSoft,
-  },
+  { key: KITCHEN_FILTER.all, label: "ทั้งหมด", icon: "room-service-outline", family: "mci", color: colors.ink },
+  { key: KITCHEN_FILTER.cooking, label: "กำลังทำ", icon: "flame", color: colors.chili },
+  { key: KITCHEN_FILTER.ready, label: "พร้อมเสิร์ฟ", icon: "checkmark-circle-outline", color: colors.jade },
+  { key: KITCHEN_FILTER.pending, label: "รอทำ", icon: "time-outline", color: colors.inkSoft },
 ];
 
 export default function KitchenFilterTabs({ value, counts, onChange }) {
@@ -47,9 +26,7 @@ export default function KitchenFilterTabs({ value, counts, onChange }) {
             style={[styles.tab, active && styles.tabActive]}
           >
             <Icon name={tab.icon} size={22} color={iconColor} />
-            <Text style={[styles.label, active && styles.labelActive]}>
-              {tab.label}
-            </Text>
+            <Text style={[styles.label, active && styles.labelActive]}>{tab.label}</Text>
             <View style={[styles.count, active && styles.countActive]}>
               <Text style={styles.countText}>{counts[tab.key]}</Text>
             </View>

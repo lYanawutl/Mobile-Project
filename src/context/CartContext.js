@@ -7,8 +7,6 @@ import {
   useState,
 } from "react";
 
-
-
 const CartContext = createContext(null);
 
 function sameLine(a, line) {
@@ -25,7 +23,6 @@ export function CartProvider({ children }) {
   const nextKey = useRef(1);
   const billIdRef = useRef(null);
 
- 
   const bindBill = useCallback((id) => {
     if (billIdRef.current !== id) {
       billIdRef.current = id;
@@ -50,7 +47,6 @@ export function CartProvider({ children }) {
     });
   }, []);
 
-  
   const setQuantity = useCallback((key, quantity) => {
     setLines((current) =>
       quantity <= 0
