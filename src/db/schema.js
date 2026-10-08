@@ -1,4 +1,5 @@
-export const SCHEMA_SQL = `
+export const SCHEMA_SQL = 
+`
 CREATE TABLE IF NOT EXISTS categories (
   id   INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT    NOT NULL UNIQUE CHECK (length(trim(name)) > 0)
