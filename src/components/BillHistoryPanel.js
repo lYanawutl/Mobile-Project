@@ -2,11 +2,7 @@ import { useCallback, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import StatusBadge from "./StatusBadge";
-import {
-  getBillLines,
-  getBillTotal,
-  getKitchenCancelNotices,
-} from "../db/billQueries";
+import { getBillLines, getBillTotal, getKitchenCancelNotices } from "../db/billQueries";
 import { useReloadOnFocus } from "../hooks/useReloadOnFocus";
 import { common } from "../styles/commonStyles";
 import { styles } from "../styles/billHistoryPanelStyles";
@@ -21,6 +17,7 @@ export default function BillHistoryPanel({ billId, refreshKey, onOpenBill }) {
   const [total, setTotal] = useState(0);
   const [noticeCount, setNoticeCount] = useState(0);
 
+ 
   const load = useCallback(async () => {
     try {
       setLines(await getBillLines(db, billId));
@@ -39,11 +36,7 @@ export default function BillHistoryPanel({ billId, refreshKey, onOpenBill }) {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         {noticeCount > 0 && (
-          <Pressable
-            accessibilityLabel="ดูรายการที่ครัวยกเลิก"
-            onPress={onOpenBill}
-            style={styles.notice}
-          >
+          <Pressable accessibilityLabel="ดูรายการที่ครัวยกเลิก" onPress={onOpenBill} style={styles.notice}>
             <Text style={styles.noticeText}>
               ครัวยกเลิก {noticeCount} รายการ · แตะเพื่อดูเหตุผล
             </Text>
@@ -53,9 +46,7 @@ export default function BillHistoryPanel({ billId, refreshKey, onOpenBill }) {
         {rounds.length === 0 && (
           <View style={common.emptyBox}>
             <Text style={common.emptyTitle}>ยังไม่ได้สั่ง</Text>
-            <Text style={common.emptyText}>
-              รายการที่ส่งเข้าครัวแล้วจะขึ้นที่นี่
-            </Text>
+            <Text style={common.emptyText}>รายการที่ส่งเข้าครัวแล้วจะขึ้นที่นี่</Text>
           </View>
         )}
 
