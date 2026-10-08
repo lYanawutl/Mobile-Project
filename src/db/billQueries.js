@@ -1,3 +1,4 @@
+
 export async function getTables(db) {
   return db.getAllAsync(
     `SELECT t.id, t.table_no, b.id AS open_bill_id,
@@ -12,6 +13,8 @@ export async function getTables(db) {
      ORDER BY t.table_no`,
   );
 }
+
+
 export async function getTable(db, tableId) {
   return db.getFirstAsync(
     `SELECT t.id, t.table_no, b.id AS open_bill_id
@@ -21,6 +24,8 @@ export async function getTable(db, tableId) {
     [tableId],
   );
 }
+
+
 export async function openBill(db, tableId, guestCount = 1) {
   const existing = await db.getFirstAsync(
     "SELECT id FROM bills WHERE table_id = ? AND status = 'open'",
@@ -55,6 +60,8 @@ export async function getBillTotal(db, billId) {
   );
   return row.total;
 }
+
+
 export async function getBillLines(db, billId) {
   return db.getAllAsync(
     `SELECT id, round_no, ordered_at, name, quantity, unit_price, note, status,
@@ -66,6 +73,8 @@ export async function getBillLines(db, billId) {
     [billId],
   );
 }
+
+
 export async function getUnfinishedItems(db, billId) {
   return db.getAllAsync(
     `SELECT id, name, quantity, status
@@ -75,6 +84,9 @@ export async function getUnfinishedItems(db, billId) {
     [billId],
   );
 }
+
+
+
 export async function closeBill(db, billId) {
   const result = await db.runAsync(
     `UPDATE bills
@@ -88,6 +100,8 @@ export async function closeBill(db, billId) {
   );
   return result.changes > 0;
 }
+
+
 export async function getClosedBills(db) {
   return db.getAllAsync(
     `SELECT b.id, t.table_no, b.opened_at, b.closed_at,
@@ -100,6 +114,7 @@ export async function getClosedBills(db) {
      ORDER BY b.closed_at DESC, b.id DESC`,
   );
 }
+
 
 export async function getKitchenCancelNotices(db, billId) {
   return db.getAllAsync(

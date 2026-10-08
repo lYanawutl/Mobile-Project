@@ -2,12 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors, font, radius, space } from "./theme";
 
 export const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    gap: space.md,
-    paddingHorizontal: space.xl,
-    paddingVertical: space.md,
-  },
+  row: { flexDirection: "row", gap: space.md, paddingHorizontal: space.xl, paddingVertical: space.md },
   tab: {
     flex: 1,
     minHeight: 52,

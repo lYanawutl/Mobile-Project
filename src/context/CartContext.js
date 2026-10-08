@@ -65,15 +65,7 @@ export function CartProvider({ children }) {
   );
 
   const value = useMemo(
-    () => ({
-      billId,
-      lines,
-      itemCount,
-      bindBill,
-      addLine,
-      setQuantity,
-      clearCart,
-    }),
+    () => ({ billId, lines, itemCount, bindBill, addLine, setQuantity, clearCart }),
     [billId, lines, itemCount, bindBill, addLine, setQuantity, clearCart],
   );
 

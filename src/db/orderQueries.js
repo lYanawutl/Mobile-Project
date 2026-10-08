@@ -1,4 +1,6 @@
+
 import { BILL_STATUS } from "../utils/status";
+
 
 export async function getCartPreview(db, cartLines) {
   const cartJson = JSON.stringify(
@@ -38,6 +40,7 @@ export async function getCartPreview(db, cartLines) {
   );
 }
 
+
 export async function sendOrderRound(db, billId, cartLines) {
   if (cartLines.length === 0) {
     throw new Error("ตะกร้าว่าง ยังไม่มีรายการให้ส่ง");
@@ -53,6 +56,7 @@ export async function sendOrderRound(db, billId, cartLines) {
       throw new Error("บิลนี้ปิดแล้วหรือไม่พบบิล");
     }
 
+    
     const round = await db.runAsync(
       `INSERT INTO order_rounds (bill_id, round_no)
        SELECT ?, COALESCE(MAX(round_no), 0) + 1
@@ -75,15 +79,12 @@ export async function sendOrderRound(db, billId, cartLines) {
           [line.menuItemId],
         );
         throw new Error(
-          [
-            "เมนู",
-            menu ? menu.name : "ที่เลือก",
-            "ปิดการขายอยู่ สั่งไม่ได้",
-          ].join(" "),
+          ["เมนู", menu ? menu.name : "ที่เลือก", "ปิดการขายอยู่ สั่งไม่ได้"].join(" "),
         );
       }
 
       for (const optionId of line.optionIds) {
+        
         const option = await db.runAsync(
           `INSERT INTO order_item_options (order_item_id, option_id, price_delta)
            SELECT ?, o.id, o.price_delta
@@ -100,6 +101,7 @@ export async function sendOrderRound(db, billId, cartLines) {
   });
   return roundId;
 }
+
 
 export async function cancelOrderItem(db, orderItemId, cancelledBy, reason) {
   const result = await db.runAsync(

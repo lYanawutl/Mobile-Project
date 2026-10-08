@@ -4,6 +4,7 @@ import { styles } from "../styles/billLineCardStyles";
 import { formatBaht, formatDateTime } from "../utils/format";
 import { CANCEL_BY_LABEL, ORDER_STATUS } from "../utils/status";
 
+
 export default function BillLineCard({ item, onCancel }) {
   const cancelled = item.status === ORDER_STATUS.cancelled;
 
@@ -21,22 +22,17 @@ export default function BillLineCard({ item, onCancel }) {
         {formatBaht(item.unit_total)} ต่อหน่วย
         {item.options_text ? ` · ${item.options_text}` : ""}
       </Text>
-      {item.note !== "" && (
-        <Text style={styles.detail}>หมายเหตุ: {item.note}</Text>
-      )}
+      {item.note !== "" && <Text style={styles.detail}>หมายเหตุ: {item.note}</Text>}
       {cancelled && (
         <Text style={styles.cancelInfo}>
-          {CANCEL_BY_LABEL[item.cancelled_by]}ยกเลิก{" "}
-          {formatDateTime(item.cancelled_at)} · {item.cancel_reason}
+          {CANCEL_BY_LABEL[item.cancelled_by]}ยกเลิก {formatDateTime(item.cancelled_at)} ·{" "}
+          {item.cancel_reason}
         </Text>
       )}
       <View style={styles.lineBottom}>
         <StatusBadge status={item.status} />
         {onCancel && (
-          <Pressable
-            accessibilityLabel={`ยกเลิก ${item.name}`}
-            onPress={() => onCancel(item)}
-          >
+          <Pressable accessibilityLabel={`ยกเลิก ${item.name}`} onPress={() => onCancel(item)}>
             <Text style={styles.cancelText}>ยกเลิก</Text>
           </Pressable>
         )}

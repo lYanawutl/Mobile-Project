@@ -28,6 +28,7 @@ import {
   ORDER_STATUS,
 } from "../utils/status";
 
+
 export default function BillScreen({ navigation, route }) {
   const { billId } = route.params;
   const db = useSQLiteContext();
@@ -64,14 +65,12 @@ export default function BillScreen({ navigation, route }) {
     const target = cancelTarget;
     setCancelTarget(null);
     try {
-      const cancelled = await cancelOrderItem(
-        db,
-        target.id,
-        CANCELLED_BY.customer,
-        reason,
-      );
+      const cancelled = await cancelOrderItem(db, target.id, CANCELLED_BY.customer, reason);
       if (!cancelled) {
-        Alert.alert("ยกเลิกไม่ได้", "ครัวเริ่มทำรายการนี้แล้ว จึงยกเลิกไม่ได้");
+        Alert.alert(
+          "ยกเลิกไม่ได้",
+          "ครัวเริ่มทำรายการนี้แล้ว จึงยกเลิกไม่ได้",
+        );
       }
       await load();
       await refreshKitchenNotices();
@@ -100,7 +99,10 @@ export default function BillScreen({ navigation, route }) {
       const names = unfinished
         .map((item) => `${item.name} ×${item.quantity}`)
         .join("\n");
-      Alert.alert("ปิดบิลไม่ได้", `ยังมีรายการที่ครัวไม่ได้เสิร์ฟ:\n${names}`);
+      Alert.alert(
+        "ปิดบิลไม่ได้",
+        `ยังมีรายการที่ครัวไม่ได้เสิร์ฟ:\n${names}`,
+      );
       await load();
     } catch (error) {
       showError(error);
@@ -116,14 +118,10 @@ export default function BillScreen({ navigation, route }) {
     });
   }
 
+  
   function renderLine({ item }) {
     const canCancel = isOpen && item.status === ORDER_STATUS.pending;
-    return (
-      <BillLineCard
-        item={item}
-        onCancel={canCancel ? setCancelTarget : undefined}
-      />
-    );
+    return <BillLineCard item={item} onCancel={canCancel ? setCancelTarget : undefined} />;
   }
 
   const header = bill && (
@@ -162,9 +160,7 @@ export default function BillScreen({ navigation, route }) {
             onPress={() => navigation.goBack()}
             style={[common.button, common.buttonOutline, styles.action]}
           >
-            <Text style={[common.buttonText, common.buttonOutlineText]}>
-              สั่งเพิ่ม
-            </Text>
+            <Text style={[common.buttonText, common.buttonOutlineText]}>สั่งเพิ่ม</Text>
           </Pressable>
           <Pressable
             accessibilityLabel="ปิดบิล"
@@ -205,9 +201,7 @@ export default function BillScreen({ navigation, route }) {
 
       <CancelReasonModal
         visible={cancelTarget !== null}
-        itemLabel={
-          cancelTarget ? `${cancelTarget.name} ×${cancelTarget.quantity}` : ""
-        }
+        itemLabel={cancelTarget ? `${cancelTarget.name} ×${cancelTarget.quantity}` : ""}
         quickReasons={CUSTOMER_CANCEL_REASONS}
         onClose={() => setCancelTarget(null)}
         onSubmit={handleCancel}

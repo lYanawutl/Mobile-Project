@@ -17,11 +17,7 @@ import MenuItemCard from "../components/MenuItemCard";
 import MenuItemSheet from "../components/MenuItemSheet";
 import OrderSidePanel, { PANEL_TAB } from "../components/OrderSidePanel";
 import { getBill, getKitchenCancelNotices } from "../db/billQueries";
-import {
-  getCategories,
-  getMenuItemOptions,
-  getMenuItems,
-} from "../db/menuQueries";
+import { getCategories, getMenuItemOptions, getMenuItems } from "../db/menuQueries";
 import { useCart } from "../context/CartContext";
 import { useReloadOnFocus } from "../hooks/useReloadOnFocus";
 import { ROUTES } from "../navigation/routes";
@@ -32,6 +28,9 @@ import { showError } from "../utils/alerts";
 import { groupByCategory } from "../utils/grouping";
 import { BILL_STATUS } from "../utils/status";
 
+// ก2, ก3: ดูเมนูแยกหมวด ค้นหา กรองเฉพาะที่มีของ (ข2) แล้วใส่ตะกร้า
+// จอกว้าง: ค้นหาด้านบน ตัวกรองซ้าย ตารางเมนูกลาง แผงตะกร้า/ประวัติขวา
+// จอแคบ: รายการเมนูเต็มจอ และปุ่มตะกร้าด้านล่าง
 export default function MenuScreen({ navigation, route }) {
   const { billId } = route.params;
   const db = useSQLiteContext();
@@ -53,6 +52,7 @@ export default function MenuScreen({ navigation, route }) {
   const gridWidth = width - layout.sidebarWidth - layout.panelWidth;
   const columns = Math.max(1, Math.floor(gridWidth / layout.gridCardMinWidth));
 
+  // ข้อมูลของหน้า (บิล หมวด แจ้งเตือน) โหลดเมื่อกลับมาที่หน้า
   const loadScreen = useCallback(async () => {
     try {
       const bill = await getBill(db, billId);
@@ -68,6 +68,8 @@ export default function MenuScreen({ navigation, route }) {
     }
   }, [db, billId, navigation]);
 
+  // รายการเมนูโหลดใหม่ทั้งตอนกลับมาที่หน้า และทุกครั้งที่ค้นหาหรือเปลี่ยนตัวกรอง
+  // (พิมพ์ค้นหาจึงไม่ต้องโหลดบิลและหมวดซ้ำทุกตัวอักษร)
   const loadItems = useCallback(async () => {
     try {
       setItems(await getMenuItems(db, { search, categoryId, onlyAvailable }));
@@ -84,17 +86,12 @@ export default function MenuScreen({ navigation, route }) {
     [navigation, billId],
   );
 
+  // จอแคบมีปุ่ม "บิล" ที่หัวจอ จอกว้างดูบิลได้จากแผงประวัติ
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: isWide
         ? undefined
-        : () => (
-            <HeaderTextButton
-              label="บิล"
-              accessibilityLabel="ดูบิล"
-              onPress={openBill}
-            />
-          ),
+        : () => <HeaderTextButton label="บิล" accessibilityLabel="ดูบิล" onPress={openBill} />,
     });
   }, [navigation, isWide, openBill]);
 
@@ -144,9 +141,7 @@ export default function MenuScreen({ navigation, route }) {
   const emptyMenu = (
     <View style={common.emptyBox}>
       <Text style={common.emptyTitle}>ไม่พบเมนู</Text>
-      <Text style={common.emptyText}>
-        ลองเปลี่ยนคำค้นหา หรือปิดตัวกรอง "เฉพาะที่มีของ"
-      </Text>
+      <Text style={common.emptyText}>ลองเปลี่ยนคำค้นหา หรือปิดตัวกรอง "เฉพาะที่มีของ"</Text>
     </View>
   );
 
@@ -213,9 +208,7 @@ export default function MenuScreen({ navigation, route }) {
           ListEmptyComponent={emptyMenu}
         />
 
-        <View
-          style={[styles.cartBar, { paddingBottom: insets.bottom + space.md }]}
-        >
+        <View style={[styles.cartBar, { paddingBottom: insets.bottom + space.md }]}>
           <Pressable
             accessibilityLabel="ดูตะกร้า"
             disabled={cartEmpty}
@@ -223,12 +216,7 @@ export default function MenuScreen({ navigation, route }) {
             style={[common.button, cartEmpty && common.buttonDisabled]}
           >
             <View style={styles.cartButtonContent}>
-              <Text
-                style={[
-                  common.buttonText,
-                  cartEmpty && common.buttonDisabledText,
-                ]}
-              >
+              <Text style={[common.buttonText, cartEmpty && common.buttonDisabledText]}>
                 {cartEmpty ? "ตะกร้ายังว่าง" : "ดูตะกร้า"}
               </Text>
               {!cartEmpty && (
