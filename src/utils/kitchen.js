@@ -9,18 +9,15 @@ export const KITCHEN_FILTER = {
   pending,
 };
 
+
 export const ITEM_ACTION_LABEL = {
   [pending]: "เริ่มทำ",
   [cooking]: "เสร็จแล้ว",
   [ready]: "เสิร์ฟแล้ว",
 };
 
-export const PROGRESS_STEPS = [
-  "รับออเดอร์",
-  "กำลังทำ",
-  "พร้อมเสิร์ฟ",
-  "เสิร์ฟแล้ว",
-];
+
+export const PROGRESS_STEPS = ["รับออเดอร์", "กำลังทำ", "พร้อมเสิร์ฟ", "เสิร์ฟแล้ว"];
 
 export function tableStatusOf(items) {
   if (items.some((item) => item.status === cooking)) {
@@ -73,19 +70,11 @@ export function groupKitchenTables(items) {
     }
     table.items.push(item);
   }
-  return tables.map((table) => ({
-    ...table,
-    status: tableStatusOf(table.items),
-  }));
+  return tables.map((table) => ({ ...table, status: tableStatusOf(table.items) }));
 }
 
 export function countTablesByStatus(tables) {
-  const counts = {
-    [KITCHEN_FILTER.all]: tables.length,
-    [cooking]: 0,
-    [ready]: 0,
-    [pending]: 0,
-  };
+  const counts = { [KITCHEN_FILTER.all]: tables.length, [cooking]: 0, [ready]: 0, [pending]: 0 };
   for (const table of tables) {
     counts[table.status] += 1;
   }
