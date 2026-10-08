@@ -12,12 +12,7 @@ export const styles = StyleSheet.create({
   cardSoldOut: { opacity: 0.55 },
   photo: { width: "100%", aspectRatio: 4 / 3 },
   body: { padding: space.md, gap: space.xs },
-  name: {
-    color: colors.ink,
-    fontSize: font.body,
-    fontWeight: "700",
-    minHeight: 40,
-  },
+  name: { color: colors.ink, fontSize: font.body, fontWeight: "700", minHeight: 40 },
   price: { color: colors.chili, fontSize: font.title, fontWeight: "800" },
   soldOut: { color: colors.slate, fontSize: font.small, fontWeight: "600" },
 });

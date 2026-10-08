@@ -41,6 +41,7 @@ const stackOptions = {
   headerShadowVisible: false,
 };
 
+
 function CustomerStackScreen() {
   return (
     <CustomerStack.Navigator screenOptions={stackOptions}>
@@ -52,63 +53,31 @@ function CustomerStackScreen() {
       <CustomerStack.Screen
         name={ROUTES.openTable}
         component={OpenTableScreen}
-        options={{
-          presentation: "transparentModal",
-          animation: "fade",
-          headerShown: false,
-        }}
+        options={{ presentation: "transparentModal", animation: "fade", headerShown: false }}
       />
-      <CustomerStack.Screen
-        name={ROUTES.menu}
-        component={MenuScreen}
-        options={{ title: "เมนู" }}
-      />
-      <CustomerStack.Screen
-        name={ROUTES.cart}
-        component={CartScreen}
-        options={{ title: "ตะกร้า" }}
-      />
-      <CustomerStack.Screen
-        name={ROUTES.bill}
-        component={BillScreen}
-        options={{ title: "สรุปบิล" }}
-      />
+      <CustomerStack.Screen name={ROUTES.menu} component={MenuScreen} options={{ title: "เมนู" }} />
+      <CustomerStack.Screen name={ROUTES.cart} component={CartScreen} options={{ title: "ตะกร้า" }} />
+      <CustomerStack.Screen name={ROUTES.bill} component={BillScreen} options={{ title: "สรุปบิล" }} />
     </CustomerStack.Navigator>
   );
 }
 
+
 function StoreStackScreen() {
   return (
     <StoreStack.Navigator screenOptions={stackOptions}>
-      <StoreStack.Screen
-        name={ROUTES.storeHome}
-        component={StoreHomeScreen}
-        options={{ title: "ร้าน" }}
-      />
-      <StoreStack.Screen
-        name={ROUTES.bill}
-        component={BillScreen}
-        options={{ title: "บิลย้อนหลัง" }}
-      />
-      <StoreStack.Screen
-        name={ROUTES.menuManage}
-        component={MenuManageScreen}
-        options={{ title: "จัดการเมนู" }}
-      />
-      <StoreStack.Screen
-        name={ROUTES.menuForm}
-        component={MenuFormScreen}
-        options={{ title: "เมนู" }}
-      />
+      <StoreStack.Screen name={ROUTES.storeHome} component={StoreHomeScreen} options={{ title: "ร้าน" }} />
+      <StoreStack.Screen name={ROUTES.bill} component={BillScreen} options={{ title: "บิลย้อนหลัง" }} />
+      <StoreStack.Screen name={ROUTES.menuManage} component={MenuManageScreen} options={{ title: "จัดการเมนู" }} />
+      <StoreStack.Screen name={ROUTES.menuForm} component={MenuFormScreen} options={{ title: "เมนู" }} />
     </StoreStack.Navigator>
   );
 }
 
 function tabIcon(name) {
-  return ({ color, size }) => (
-    <Ionicons name={name} size={size} color={color} />
-  );
+  return ({ color, size }) => <Ionicons name={name} size={size} color={color} />;
 }
+
 
 function MainTabs() {
   const { kitchenNoticeCount, refreshKitchenNotices } = useNotices();
@@ -158,6 +127,7 @@ function MainTabs() {
     </Tab.Navigator>
   );
 }
+
 
 export default function AppNavigator() {
   return (

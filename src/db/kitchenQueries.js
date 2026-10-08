@@ -1,3 +1,4 @@
+// คำสั่ง SQL ฝั่งครัว
 import { ORDER_STATUS } from "../utils/status";
 
 const NEXT_STATUS = {
@@ -5,6 +6,7 @@ const NEXT_STATUS = {
   [ORDER_STATUS.cooking]: ORDER_STATUS.ready,
   [ORDER_STATUS.ready]: ORDER_STATUS.served,
 };
+
 
 export async function getKitchenQueue(db) {
   return db.getAllAsync(
@@ -19,6 +21,7 @@ export async function getKitchenQueue(db) {
   );
 }
 
+
 export async function advanceItemStatus(db, orderItemId, currentStatus) {
   const nextStatus = NEXT_STATUS[currentStatus];
   if (!nextStatus) {
@@ -30,6 +33,7 @@ export async function advanceItemStatus(db, orderItemId, currentStatus) {
   );
   return result.changes > 0;
 }
+
 
 export async function advanceBillItems(db, billId, currentStatus) {
   const nextStatus = NEXT_STATUS[currentStatus];
@@ -46,6 +50,7 @@ export async function advanceBillItems(db, billId, currentStatus) {
   return result.changes;
 }
 
+
 export async function getCustomerCancelNotices(db) {
   return db.getAllAsync(
     `SELECT l.id, l.name, l.quantity, l.round_no, t.table_no,
@@ -59,6 +64,7 @@ export async function getCustomerCancelNotices(db) {
      ORDER BY l.cancelled_at, l.id`,
   );
 }
+
 
 export async function getKitchenNoticeCount(db) {
   const row = await db.getFirstAsync(
