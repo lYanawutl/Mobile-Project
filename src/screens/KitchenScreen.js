@@ -32,12 +32,9 @@ import { common } from "../styles/commonStyles";
 import { styles } from "../styles/kitchenStyles";
 import { layout } from "../styles/theme";
 import { showError } from "../utils/alerts";
-import {
-  countTablesByStatus,
-  groupKitchenTables,
-  KITCHEN_FILTER,
-} from "../utils/kitchen";
+import { countTablesByStatus, groupKitchenTables, KITCHEN_FILTER } from "../utils/kitchen";
 import { CANCELLED_BY, KITCHEN_CANCEL_REASONS } from "../utils/status";
+
 
 export default function KitchenScreen() {
   const db = useSQLiteContext();
@@ -71,13 +68,10 @@ export default function KitchenScreen() {
   const tables = useMemo(() => groupKitchenTables(items), [items]);
   const counts = useMemo(() => countTablesByStatus(tables), [tables]);
   const visibleTables =
-    filter === KITCHEN_FILTER.all
-      ? tables
-      : tables.filter((table) => table.status === filter);
+    filter === KITCHEN_FILTER.all ? tables : tables.filter((table) => table.status === filter);
 
-  const chosen =
-    tables.find((table) => table.billId === selectedBillId) ?? null;
-  const selected = chosen ?? (isWide ? (visibleTables[0] ?? null) : null);
+  const chosen = tables.find((table) => table.billId === selectedBillId) ?? null;
+  const selected = chosen ?? (isWide ? visibleTables[0] ?? null : null);
 
   async function handleRefresh() {
     setRefreshing(true);
@@ -89,10 +83,7 @@ export default function KitchenScreen() {
     try {
       const changed = await advanceItemStatus(db, item.id, item.status);
       if (!changed) {
-        Alert.alert(
-          "รายการเปลี่ยนไปแล้ว",
-          "รายการนี้ถูกเปลี่ยนสถานะหรือยกเลิกไปแล้ว",
-        );
+        Alert.alert("รายการเปลี่ยนไปแล้ว", "รายการนี้ถูกเปลี่ยนสถานะหรือยกเลิกไปแล้ว");
       }
       await load();
     } catch (error) {
@@ -115,11 +106,7 @@ export default function KitchenScreen() {
   function handleItemMenu(item) {
     Alert.alert(`${item.name} ×${item.quantity}`, "รายการนี้ยังไม่ได้เริ่มทำ", [
       { text: "ปิด", style: "cancel" },
-      {
-        text: "ยกเลิกรายการ",
-        style: "destructive",
-        onPress: () => setCancelTarget(item),
-      },
+      { text: "ยกเลิกรายการ", style: "destructive", onPress: () => setCancelTarget(item) },
     ]);
   }
 
@@ -127,17 +114,9 @@ export default function KitchenScreen() {
     const target = cancelTarget;
     setCancelTarget(null);
     try {
-      const cancelled = await cancelOrderItem(
-        db,
-        target.id,
-        CANCELLED_BY.kitchen,
-        reason,
-      );
+      const cancelled = await cancelOrderItem(db, target.id, CANCELLED_BY.kitchen, reason);
       if (!cancelled) {
-        Alert.alert(
-          "ยกเลิกไม่ได้",
-          "รายการนี้เริ่มทำไปแล้วหรือถูกยกเลิกไปแล้ว",
-        );
+        Alert.alert("ยกเลิกไม่ได้", "รายการนี้เริ่มทำไปแล้วหรือถูกยกเลิกไปแล้ว");
       }
       await load();
     } catch (error) {
@@ -165,10 +144,7 @@ export default function KitchenScreen() {
 
   return (
     <View style={[common.screen, { paddingTop: insets.top }]}>
-      <KitchenHeader
-        noticeCount={kitchenNoticeCount}
-        onPressBell={() => setNoticeOpen(true)}
-      />
+      <KitchenHeader noticeCount={kitchenNoticeCount} onPressBell={() => setNoticeOpen(true)} />
 
       <KitchenFilterTabs value={filter} counts={counts} onChange={setFilter} />
 
@@ -178,9 +154,7 @@ export default function KitchenScreen() {
           data={visibleTables}
           keyExtractor={(table) => String(table.billId)}
           contentContainerStyle={styles.listContent}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-          }
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
           renderItem={({ item: table }) => (
             <KitchenTableCard
               table={table}
@@ -193,8 +167,7 @@ export default function KitchenScreen() {
             <View style={common.emptyBox}>
               <Text style={common.emptyTitle}>ไม่มีออเดอร์ค้าง</Text>
               <Text style={common.emptyText}>
-                เมื่อลูกค้าส่งออเดอร์ โต๊ะจะขึ้นที่นี่ เรียงตามเวลาที่สั่ง
-                เก่าสุดก่อน
+                เมื่อลูกค้าส่งออเดอร์ โต๊ะจะขึ้นที่นี่ เรียงตามเวลาที่สั่ง เก่าสุดก่อน
               </Text>
             </View>
           }
@@ -204,9 +177,7 @@ export default function KitchenScreen() {
           <View style={styles.detail}>
             {detail ?? (
               <View style={styles.detailEmpty}>
-                <Text style={common.emptyText}>
-                  เลือกโต๊ะทางซ้ายเพื่อดูรายละเอียด
-                </Text>
+                <Text style={common.emptyText}>เลือกโต๊ะทางซ้ายเพื่อดูรายละเอียด</Text>
               </View>
             )}
           </View>
@@ -221,10 +192,7 @@ export default function KitchenScreen() {
         >
           <View style={[styles.modalScreen, { paddingTop: insets.top }]}>
             <View style={styles.modalHeader}>
-              <Pressable
-                accessibilityLabel="ปิดรายละเอียดโต๊ะ"
-                onPress={() => setSelectedBillId(null)}
-              >
+              <Pressable accessibilityLabel="ปิดรายละเอียดโต๊ะ" onPress={() => setSelectedBillId(null)}>
                 <Text style={styles.closeText}>ปิด</Text>
               </Pressable>
             </View>

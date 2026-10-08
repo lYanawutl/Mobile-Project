@@ -2,12 +2,7 @@ import { StyleSheet } from "react-native";
 import { colors, font, layout, radius, space } from "./theme";
 
 export const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    flexDirection: "row",
-    gap: space.lg,
-    paddingHorizontal: space.xl,
-  },
+  body: { flex: 1, flexDirection: "row", gap: space.lg, paddingHorizontal: space.xl },
   list: { flex: 1 },
   listContent: { gap: space.md, paddingBottom: space.xl * 2 },
 
@@ -20,12 +15,7 @@ export const styles = StyleSheet.create({
     borderColor: colors.line,
     overflow: "hidden",
   },
-  detailEmpty: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: space.xl,
-  },
+  detailEmpty: { flex: 1, alignItems: "center", justifyContent: "center", padding: space.xl },
 
   modalScreen: { flex: 1, backgroundColor: colors.paper },
   modalHeader: {
